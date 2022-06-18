@@ -1,0 +1,13 @@
+title Exercise_0.6_New_note(spa)
+
+note over browser
+The new note is created and added to the notes list.
+Then the notes list is rerendered and the new note 
+is sent to the server as JSON data type with an 
+HTTP POST request
+end note
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server->browser: 201 code (resource created)
+note over browser
+The browser stays on the same page.
+end note
