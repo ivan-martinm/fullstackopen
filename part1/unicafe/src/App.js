@@ -7,6 +7,14 @@ const Button = ({ handleClick, text }) =>
 
 const Statistics = ({ good, neutral, bad }) => {
   let total = good + neutral + bad
+  if (total === 0) {
+    return (
+      <div>
+        <h1>statistics</h1>
+        <p>No feedback given</p>
+      </div>
+    )
+  }
   return (
     <div>
       <h1>statistics</h1>
@@ -14,8 +22,8 @@ const Statistics = ({ good, neutral, bad }) => {
       <p>neutral {neutral}</p>
       <p>bad {bad}</p>
       <p>all {total}</p>
-      <p>average {total === 0 ? 0 : (good - bad) / total}</p> {/*Using condition to prevent NaN from division by 0*/}
-      <p>positive {total === 0 ? 0 : (good / total) * 100} %</p> {/*Using condition to prevent NaN from division by 0*/}
+      <p>average {(good - bad) / total}</p> 
+      <p>positive {(good / total) * 100} %</p>
     </div>
   )
 }
