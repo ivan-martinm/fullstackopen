@@ -8,20 +8,18 @@ const Part = ({ part }) =>
   </p>
 
 const Content = ({ parts }) => {
-  let sum = 0
-  for (let i = 0; i < parts.length; i++) {
-    sum += parts[i].exercises
-  }
+  const exercises = parts.map(part => part.exercises)
+  const sum = exercises.reduce((total, num) => total + num)
   return (
-  <>
-    {
-      parts.map(part =>
-        <Part key={part.id} part={part}
-        />
-      )
-    }
-    <Total sum={sum} />
-  </>
+    <>
+      {
+        parts.map(part =>
+          <Part key={part.id} part={part}
+          />
+        )
+      }
+        <Total sum={sum} />
+    </>
   )
 }
 
