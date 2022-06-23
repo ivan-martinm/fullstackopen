@@ -1,5 +1,38 @@
 import { useState } from "react"
 
+const Filter = ({ searchTerm, handleSearchTermChange }) =>
+  <div>
+    filter shown with
+    <input value={searchTerm} onChange={handleSearchTermChange} />
+  </div>
+
+const PersonForm = (props) =>
+  <form onSubmit={props.addPerson}>
+    <div>
+      name: <input value={props.newName} onChange={props.handleNameChange} />
+    </div>
+    <div>
+      number: <input value={props.newNumber} onChange={props.handleNumberChange} />
+    </div>
+    <div>
+      <button type="submit">add</button>
+    </div>
+  </form>
+
+const Persons = ({ persons, searchTerm }) => {
+  const filteredPeople = persons.filter(
+    person => person.name.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+  return (
+    <>
+      {filteredPeople.map(person => <Person key={person.name} person={person} />)}
+    </>
+  )
+}
+
+const Person = ({ person }) =>
+  <div>{person.name} {person.number}</div>
+
 const App = () => {
   const [persons, setPersons] = useState([
     {
@@ -51,38 +84,19 @@ const App = () => {
     setSearchTerm(event.target.value)
   }
 
-  const showPeople = () => {
-    const filteredPeople = persons.filter(
-      person => person.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    return (
-      filteredPeople.map(person => <div key={person.name}>{person.name} {person.number}</div>)
-    )
-  }
-
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with
-        <input value={searchTerm} onChange={handleSearchTermChange} />
-      </div>
-      <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter searchTerm={searchTerm} handleSearchTermChange={handleSearchTermChange} />
+      <h2>add a new</h2>
+      <PersonForm
+        addPerson={addPerson}
+        newName={newName} newNumber={newNumber}
+        handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}
+      />
       <h2>Numbers</h2>
-      {showPeople()}
+      <Persons persons={persons} searchTerm={searchTerm} />
     </div>
-
   )
 }
 
