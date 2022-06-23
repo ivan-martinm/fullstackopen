@@ -5,10 +5,23 @@ const App = () => {
     {
       name: 'Arto Hellas',
       number: '040-1234567'
+    },
+    {
+      name: 'Ada Lovelace',
+      number: '39-44-5323523'
+    },
+    {
+      name: 'Dan Abramov',
+      number: '12-43-234345'
+    },
+    {
+      name: 'Mary Poppendieck',
+      number: '39-23-6423122'
     }
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -34,8 +47,26 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const handleSearchTermChange = (event) => {
+    setSearchTerm(event.target.value)
+  }
+
+  const showPeople = () => {
+    const filteredPeople = persons.filter(
+      person => person.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    return (
+      filteredPeople.map(person => <div key={person.name}>{person.name} {person.number}</div>)
+    )
+  }
+
   return (
     <div>
+      <h2>Phonebook</h2>
+      <div>
+        filter shown with
+        <input value={searchTerm} onChange={handleSearchTermChange} />
+      </div>
       <h2>Phonebook</h2>
       <form onSubmit={addPerson}>
         <div>
@@ -49,7 +80,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(person => <div key={person.name}>{person.name} {person.number}</div>)}
+      {showPeople()}
     </div>
 
   )
