@@ -43,9 +43,39 @@ const Country = ({ country }) => {
       <ul>
         {Object.values(country.languages).map(language => <li key={language}>{language}</li>)}
       </ul>
-      <img src={country.flags.png} alt="Flag" width="150px" border="1px"/>
+      <img src={country.flags.png} alt="Flag" width="150px" border="1px" />
+      <Weather capital={country.capital} />
     </>
   )
+}
+
+const Weather = ({ capital }) => {
+  const [weatherInfo, setWeather] = useState('')
+  useEffect(() => {
+    const api_key = process.env.REACT_APP_API_KEY
+    axios
+      .get(`http://api.openweathermap.org/data/2.5/weather?q=${capital}&APPID=${api_key}`)
+      .then(response => setWeather(response.data))
+  }, [capital]) // I only want to execute the hook if the capital has changed
+
+  // I am checking here if 'weatherInfo' has been assigned yet, in order to show the data,
+  // preventing the error I was getting on the first render of this component when 'weatherInfo'
+  // still had the default value. 
+  if (weatherInfo !== '') {
+    return (
+      <>
+        <h2>Weather in {capital}</h2>
+        <div>
+          temperature { // Converting from Kelvin to Celsius and rounding to 2 decimal places
+            Math.round((weatherInfo.main.temp - 273.15) * 100) / 100} Celsius
+        </div>
+        <img src={`http://openweathermap.org/img/wn/${weatherInfo.weather[0].icon}@2x.png`} alt="icon" />
+        <div>
+          wind {weatherInfo.wind.speed} m/s
+        </div>
+      </>
+    )
+  }
 }
 
 const App = () => {
