@@ -37,11 +37,22 @@ const Person = ({ person, deletePerson }) =>
     <button onClick={() => deletePerson(person)}> delete</button>
   </div>
 
+const Notification = ({ message }) => {
+  if (message !== null) {
+    return (
+      <div className='successMessage'>
+        {message}
+      </div>
+    )
+  }
+}
+
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -65,6 +76,10 @@ const App = () => {
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setMessage(`'${returnedPerson.name}' has been added.`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
           setNewName('')
           setNewNumber('')
         })
@@ -76,7 +91,13 @@ const App = () => {
       const personID = person.id
       personService
         .remove(personID)
-        .then(setPersons(persons.filter(person => person.id !== personID)))
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== personID))
+          setMessage(`'${person.name}' has been removed from server`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+        })
         .catch(error => {
           alert(`The person '${person.name}' has already been deleted from server`)
           setPersons(persons.filter(person => person.id !== personID))
@@ -93,6 +114,12 @@ const App = () => {
         setPersons(
           persons.map(person => person.id != changedPerson.id ? person : returnedPerson)
         )
+        setNewName('')
+        setNewNumber('')
+        setMessage(`Phone number for '${returnedPerson.name}' has been replaced.`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       })
   }
 
@@ -111,6 +138,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter searchTerm={searchTerm} handleSearchTermChange={handleSearchTermChange} />
       <h2>add a new</h2>
       <PersonForm
