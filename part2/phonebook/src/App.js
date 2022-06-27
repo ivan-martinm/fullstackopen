@@ -20,19 +20,22 @@ const PersonForm = (props) =>
     </div>
   </form>
 
-const Persons = ({ persons, searchTerm }) => {
+const Persons = ({ persons, searchTerm, deletePerson }) => {
   const filteredPeople = persons.filter(
     person => person.name.toLowerCase().includes(searchTerm.toLowerCase())
   )
   return (
     <>
-      {filteredPeople.map(person => <Person key={person.name} person={person} />)}
+      {filteredPeople.map(person => <Person key={person.name} person={person} deletePerson={deletePerson} />)}
     </>
   )
 }
 
-const Person = ({ person }) =>
-  <div>{person.name} {person.number}</div>
+const Person = ({ person, deletePerson }) =>
+  <div>
+    {person.name} {person.number}
+    <button onClick={() => deletePerson(person)}> delete</button>
+  </div>
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -66,6 +69,19 @@ const App = () => {
     }
   }
 
+  const deletePerson = (person) => {
+    if (window.confirm(`Do you want to delete '${person.name}' ?`)) {
+      const personID = person.id
+      personService
+        .remove(personID)
+        .then(setPersons(persons.filter(person => person.id !== personID)))
+        .catch(error => {
+          alert(`The person '${person.name}' has already been deleted from server`)
+          setPersons(persons.filter(person => person.id !== personID))
+        })
+    }
+  }
+
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
@@ -89,7 +105,7 @@ const App = () => {
         handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} searchTerm={searchTerm} />
+      <Persons persons={persons} searchTerm={searchTerm} deletePerson={deletePerson} />
     </div>
   )
 }
