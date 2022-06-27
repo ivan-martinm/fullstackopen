@@ -40,8 +40,8 @@ const Person = ({ person, deletePerson }) =>
 const Notification = ({ message }) => {
   if (message !== null) {
     return (
-      <div className='successMessage'>
-        {message}
+      <div className={message.isError ? 'errorMessage' : 'successMessage'}>
+        {message.text}
       </div>
     )
   }
@@ -76,7 +76,7 @@ const App = () => {
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
-          setMessage(`'${returnedPerson.name}' has been added.`)
+          setMessage({ text: `'${returnedPerson.name}' has been added.`, isError: false })
           setTimeout(() => {
             setMessage(null)
           }, 5000)
@@ -93,14 +93,17 @@ const App = () => {
         .remove(personID)
         .then(() => {
           setPersons(persons.filter(person => person.id !== personID))
-          setMessage(`'${person.name}' has been removed from server`)
+          setMessage({ text: `'${person.name}' has been removed from server`, isError: false })
           setTimeout(() => {
             setMessage(null)
           }, 5000)
         })
         .catch(error => {
-          alert(`The person '${person.name}' has already been deleted from server`)
           setPersons(persons.filter(person => person.id !== personID))
+          setMessage({ text: `Information of '${person.name}' has already been removed from server`, isError: true })
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
     }
   }
@@ -116,7 +119,7 @@ const App = () => {
         )
         setNewName('')
         setNewNumber('')
-        setMessage(`Phone number for '${returnedPerson.name}' has been replaced.`)
+        setMessage({ text: `Phone number for '${returnedPerson.name}' has been replaced.`, isError: false })
         setTimeout(() => {
           setMessage(null)
         }, 5000)
