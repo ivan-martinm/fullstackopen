@@ -1,0 +1,17 @@
+GET http://localhost:3003/api/blogs
+
+###
+
+GET http://localhost:3003/api/blogs/62c2cf7f97bdedc49cac12e8
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "First blog",
+  "author": "Ivan",
+  "url": "url-1",
+  "likes": 3
+}
