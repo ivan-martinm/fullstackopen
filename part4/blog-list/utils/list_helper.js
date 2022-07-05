@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 const dummy = (blogs) => {
   return 1
 }
@@ -15,4 +17,32 @@ const favoriteBlog = blogs => {
   return blogs.filter(blog => blog.likes === maxLikes)[0]
 }
 
-module.exports = { dummy, totalLikes, favoriteBlog }
+const mostBlogs = blogs => {
+  const reducer = (groups, blog) => {
+    let key = blog['author']
+    groups[key] = (groups[key] || 0) + 1
+    return groups
+  }
+  const countByAuthor = blogs.reduce(reducer, {})
+  const authors = Object.entries(countByAuthor).map(author => {
+    return { author: author[0], blogs: author[1] }
+  })
+  const maxBlogs = Math.max(...authors.map(author => author.blogs))
+  return authors.filter(author => author.blogs === maxBlogs)[0]
+}
+
+const mostBlogsLodash = blogs => {
+  const countByAuthor = _.countBy(blogs, 'author')
+  const authors = _.map(countByAuthor, (value, key) => {
+    return { author: key, blogs: value }
+  })
+  return _.maxBy(authors, 'author')
+}
+
+module.exports = {
+  dummy,
+  totalLikes,
+  favoriteBlog,
+  mostBlogs,
+  mostBlogsLodash
+}
