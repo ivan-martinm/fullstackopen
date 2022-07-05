@@ -39,10 +39,34 @@ const mostBlogsLodash = blogs => {
   return _.maxBy(authors, 'author')
 }
 
+const mostLikes = blogs => {
+  const reducer = (groups, blog) => {
+    let key = blog['author']
+    groups[key] = (groups[key] || 0) + blog.likes
+    return groups
+  }
+  const groupByAuthor = blogs.reduce(reducer, {})
+  const authors = Object.entries(groupByAuthor).map(author => {
+    return { author: author[0], likes: author[1] }
+  })
+  const maxLikes = Math.max(...authors.map(author => author.likes))
+  return authors.filter(author => author.likes === maxLikes)[0]
+}
+
+const mostLikesLodash = blogs => {
+  const groupByAuthor = _.groupBy(blogs, 'author')
+  const likesPerAuthor = _.map(groupByAuthor, (value, key) => {
+    return { author: key, likes: _.sumBy(value, 'likes') }
+  })
+  return _.maxBy(likesPerAuthor, 'likes')
+}
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,
-  mostBlogsLodash
+  mostBlogsLodash,
+  mostLikes,
+  mostLikesLodash
 }
