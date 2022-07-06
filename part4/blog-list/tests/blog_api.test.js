@@ -21,9 +21,37 @@ test('returned the correct amount of blogs as json', async () => {
       expect(response.body).toHaveLength(6))
 }, 100000)
 
-test.only('the name of the identifier property of the blogs is: id', async () => {
-  const response = await api.get('/api/blogs')
-  expect(response.body[0].id).toBeDefined()
+test('the name of the identifier property of the blogs is: id', async () => {
+  const currentBlogs = await helper.blogsInDb()
+  expect(currentBlogs[0].id).toBeDefined()
+})
+
+test('a new blog can be created', async () => {
+  const newBlog = {
+    title: 'Newest blog',
+    author: 'Ivan Martin',
+    url: 'http://localhost',
+    likes: 13
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const currentBlogs = await helper.blogsInDb()
+  expect(currentBlogs).toHaveLength(helper.initialBlogs.length + 1)
+
+  const simplifiedBlogs = currentBlogs.map(b => { // Getting rid of 'id' and '__v' properties
+    return {
+      title: b.title,
+      author: b.author,
+      url: b.url,
+      likes: b.likes
+    }
+  })
+  expect(simplifiedBlogs).toContainEqual(newBlog)
 })
 
 afterAll(() => {
