@@ -117,6 +117,46 @@ describe('when trying to delete a specific blog', () => {
   })
 })
 
+describe('when trying to update a specific blog', () => {
+  test('a specific blog can be modified', async () => {
+    let currentBlogs = await helper.blogsInDb()
+    const blogToModify = currentBlogs[0]
+    blogToModify.title = 'New title'
+
+    await api
+      .put(`/api/blogs/${blogToModify.id}`)
+      .send(blogToModify)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    currentBlogs = await helper.blogsInDb()
+    expect(currentBlogs).toContainEqual(blogToModify)
+  })
+
+  test('response status is 404 when using an incorrect id', async () => {
+    let currentBlogs = await helper.blogsInDb()
+    const blogToModify = currentBlogs[0]
+    const incorrectId = '32c6ac2b48cb1c423c0e8f63'
+    blogToModify.title = 'New title'
+
+    await api
+      .put(`/api/blogs/${incorrectId}`)
+      .send(blogToModify)
+      .expect(404)
+  })
+
+  test('response status is 400 when using an id invalid format', async () => {
+    let currentBlogs = await helper.blogsInDb()
+    const blogToModify = currentBlogs[0]
+    const malformattedId = '3'
+    blogToModify.title = 'New title'
+
+    await api
+      .put(`/api/blogs/${malformattedId}`)
+      .send(blogToModify)
+      .expect(400)
+  })
+})
 
 afterAll(() => {
   mongoose.connection.close()

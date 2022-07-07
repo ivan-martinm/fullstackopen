@@ -18,7 +18,7 @@ blogsRouter.post('/', async (request, response) => {
     url: request.body.url,
     likes: request.body.likes || 0
   })
-  if (!blog.title && !blog.author) {
+  if (!blog.title || !blog.author) {
     response.status(400).end()
   } else {
     const result = await blog.save()
@@ -28,10 +28,31 @@ blogsRouter.post('/', async (request, response) => {
 
 blogsRouter.delete('/:id', async (request, response) => {
   const result = await Blog.findByIdAndRemove(request.params.id)
-  if(!result) {
+  if (!result) {
     response.status(404).end()
   } else {
     response.status(204).end()
+  }
+})
+
+blogsRouter.put('/:id', async (request, response) => {
+  const blog = {
+    title: request.body.title,
+    author: request.body.author,
+    url: request.body.url,
+    likes: request.body.likes || 0
+  }
+  if (!blog.title || !blog.author) {
+    response.status(400).end()
+  } else {
+    const result = await Blog
+      .findByIdAndUpdate(
+        request.params.id, blog, { new: true })
+    if (!result) {
+      response.status(404).end()
+    } else {
+      response.json(result)
+    }
   }
 })
 
