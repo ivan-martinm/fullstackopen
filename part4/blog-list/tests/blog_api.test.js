@@ -54,6 +54,22 @@ test('a new blog can be created', async () => {
   expect(simplifiedBlogs).toContainEqual(newBlog)
 })
 
+test('likes property is 0 when it is missing from the request', async () => {
+  const blogWithoutLikes = {
+    title: 'Newest blog',
+    author: 'Ivan Martin',
+    url: 'http://localhost',
+  }
+
+  const response = await api
+    .post('/api/blogs')
+    .send(blogWithoutLikes)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  expect(response.body.likes).toBe(0)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
