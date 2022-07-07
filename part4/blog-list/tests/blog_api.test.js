@@ -19,7 +19,7 @@ test('returned the correct amount of blogs as json', async () => {
     .expect('Content-Type', /application\/json/)
     .then(response =>
       expect(response.body).toHaveLength(6))
-}, 100000)
+})
 
 test('the name of the identifier property of the blogs is: id', async () => {
   const currentBlogs = await helper.blogsInDb()
@@ -68,6 +68,18 @@ test('likes property is 0 when it is missing from the request', async () => {
     .expect('Content-Type', /application\/json/)
 
   expect(response.body.likes).toBe(0)
+})
+
+test('the backend response status is 400 when title and url properties are missing', async () => {
+  const incompleteBlog = {
+    url: 'http://localhost',
+    likes: 4
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(incompleteBlog)
+    .expect(400)
 })
 
 afterAll(() => {
