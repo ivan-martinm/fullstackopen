@@ -13,7 +13,7 @@ beforeEach(async () => {
 })
 
 describe('when getting data', () => {
-  test.only('returned the correct amount of blogs as json', async () => {
+  test('returned the correct amount of blogs as json', async () => {
     const response = await api
       .get('/api/blogs')
       .expect(200)
