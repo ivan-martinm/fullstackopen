@@ -1,0 +1,24 @@
+GET http://localhost:3003/api/users
+Content-Type: application/json
+
+###
+
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "root",
+  "name": "Administrator",
+  "password": "unsafepassword"
+}
+
+###
+
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "user01",
+  "name": "User Number 01",
+  "password": "password01"
+}
