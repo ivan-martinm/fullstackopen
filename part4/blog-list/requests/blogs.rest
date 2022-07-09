@@ -1,7 +1,7 @@
 GET http://localhost:3003/api/blogs
 
 ###
-GET http://localhost:3003/api/blogs/62c86a085473b59f328ed80a
+GET http://localhost:3003/api/blogs/62c9459ca56a39ea1ba4855b
 
 ###
 POST http://localhost:3003/api/blogs
@@ -54,7 +54,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZ
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNSIsImlkIjoiNjJjODY5Zjc1NDczYjU5ZjMyOGVkODA3IiwiaWF0IjoxNjU3MzU3NzQ0fQ.D-U8RyENXpUlvJFk5oWLKBIKuWRm91wdHZrz4J5cvyo
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNSIsImlkIjoiNjJjODY5Zjc1NDczYjU5ZjMyOGVkODA3IiwiaWF0IjoxNjU3MzY0NzkwLCJleHAiOjE2NTczNjUzOTB9.OT66dlhMOxPGVF1hE5I7gmvw849inrqGvA_PJI0ncEw
 
 {
   "title": "Fifth blog",
@@ -76,8 +76,8 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZ
 }
 
 ### Incorrect token
-DELETE http://localhost:3003/api/blogs/62c94f4c74da16525d711c19
+DELETE http://localhost:3003/api/blogs/62c961708eca063df82a795b
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNSIsImlkIjoiNjJjODY5Zjc1NDczYjU5ZjMyOGVkODA3IiwiaWF0IjoxNjU3MzYyNjM1LCJleHAiOjE2NTczNjMyMzV9.BwUl67b3lc2jKxq6XYmgu_dsxO9NawCLbqlK6FVmJcg
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNSIsImlkIjoiNjJjODY5Zjc1NDczYjU5ZjMyOGVkODA3IiwiaWF0IjoxNjU3MzY0Njk4LCJleHAiOjE2NTczNjUyOTh9.5QRWwu1d77z9c9keu_P1MpMCrGZhuVJRj39Eg1rTjK8
 
 

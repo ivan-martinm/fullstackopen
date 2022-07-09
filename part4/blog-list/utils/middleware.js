@@ -1,4 +1,6 @@
 const logger = require('./logger')
+const User = require('../models/user')
+const jwt = require('jsonwebtoken')
 
 const customLogger = (request, response, next) => {
   const timestamp = new Date().toTimeString().split(' ')[0]
@@ -36,4 +38,21 @@ const tokenExtractor = (request, response, next) => {
   next()
 }
 
-module.exports = { customLogger, unknownEndpoint, errorHandler, tokenExtractor }
+const userExtractor = async (request, response, next) => {
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+
+  const user = await User.findById(decodedToken.id)
+  request.user = user
+  next()
+}
+
+module.exports = {
+  customLogger,
+  unknownEndpoint,
+  errorHandler,
+  tokenExtractor,
+  userExtractor
+}
