@@ -34,6 +34,39 @@ const initialBlogs = [
   }
 ]
 
+const initialUsers = [
+  {
+    username: 'default',
+    name: 'Default User',
+    password: 'defaultPassword'
+  },
+  {
+    username: 'user01',
+    name: 'User Number 01',
+    password: 'password01'
+  },
+  {
+    username: 'user02',
+    name: 'User Number 02',
+    password: 'password02'
+  },
+  {
+    username: 'user03',
+    name: 'User Number 03',
+    password: 'password03'
+  },
+  {
+    username: 'user04',
+    name: 'User Number 04',
+    password: 'password04'
+  },
+  {
+    username: 'user05',
+    name: 'User Number 05',
+    password: 'password05'
+  },
+]
+
 const blogsInDb = async () => {
   const blogs = await Blog.find({})
   return blogs.map(blog => blog.toJSON())
@@ -44,4 +77,4 @@ const usersInDb = async () => {
   return users.map(user => user.toJSON())
 }
 
-module.exports = { initialBlogs, blogsInDb, usersInDb }
+module.exports = { initialBlogs, initialUsers, blogsInDb, usersInDb }

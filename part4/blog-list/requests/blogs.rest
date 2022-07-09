@@ -1,0 +1,70 @@
+GET http://localhost:3003/api/blogs
+
+###
+GET http://localhost:3003/api/blogs/62c86a085473b59f328ed80a
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "First blog",
+  "author": "Ivan",
+  "url": "url-1",
+  "likes": 3
+}
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Second blog",
+  "author": "Ivan",
+  "url": "url-2",
+  "likes": 5
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Third blog",
+  "author": "Ivan",
+  "url": "url-3",
+  "likes": 1
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Fourth blog",
+  "author": "Ivan",
+  "url": "url-4",
+  "likes": 8
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Fifth blog",
+  "author": "Ivan",
+  "url": "url-5",
+  "likes": 12
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Sixth blog",
+  "author": "Ivan",
+  "url": "url-6",
+  "likes": 15
+}

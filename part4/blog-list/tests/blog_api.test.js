@@ -28,7 +28,7 @@ describe('when getting data', () => {
 })
 
 describe('when adding a new blog', () => {
-  test('a new blog can be created', async () => {
+  test.only('a new blog can be created', async () => {
     const newBlog = {
       title: 'Newest blog',
       author: 'Ivan Martin',

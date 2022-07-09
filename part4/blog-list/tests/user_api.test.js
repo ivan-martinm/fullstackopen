@@ -8,13 +8,9 @@ const api = supertest(app)
 
 beforeEach(async () => {
   await User.deleteMany({})
-  const passwordHash = await bcrypt.hash('defaultPassword', 10)
-  const defaultUser = new User({
-    username: 'default',
-    name: 'Default user',
-    passwordHash
-  })
-  await defaultUser.save()
+  const users = helper.initialUsers.map(user => new User(user))
+  const promisesArray = users.map(user => user.save())
+  await Promise.all(promisesArray)
 })
 
 describe('when adding users', () => {
@@ -22,9 +18,9 @@ describe('when adding users', () => {
     const initialUsers = await helper.usersInDb()
 
     const newUser = {
-      username: 'user01',
-      name: 'User Number 1',
-      password: 'password01'
+      username: 'user06',
+      name: 'User Number 6',
+      password: 'password06'
     }
 
     await api
@@ -44,8 +40,8 @@ describe('when adding users', () => {
 
     const newUser = {
       username: 'us',
-      name: 'User Number 1',
-      password: 'password01'
+      name: 'User Number 6',
+      password: 'password06'
     }
 
     const response = await api
@@ -53,7 +49,7 @@ describe('when adding users', () => {
       .send(newUser)
       .expect(400)
 
-    expect(response.body.error).toBe('username and password must be least 3 characters long')
+    expect(response.body.error).toBe('username and password must be at least 3 characters long')
 
     const currentUsers = await helper.usersInDb()
     expect(currentUsers).toHaveLength(initialUsers.length)
@@ -65,8 +61,8 @@ describe('when adding users', () => {
     const initialUsers = await helper.usersInDb()
 
     const newUser = {
-      username: 'user01',
-      name: 'User Number 1',
+      username: 'user06',
+      name: 'User Number 6',
       password: 'pa'
     }
 
@@ -75,7 +71,7 @@ describe('when adding users', () => {
       .send(newUser)
       .expect(400)
 
-    expect(response.body.error).toBe('username and password must be least 3 characters long')
+    expect(response.body.error).toBe('username and password must be at least 3 characters long')
 
     const currentUsers = await helper.usersInDb()
     expect(currentUsers).toHaveLength(initialUsers.length)
@@ -83,7 +79,7 @@ describe('when adding users', () => {
     expect(userNames).not.toContain(newUser.username)
   })
 
-  test.only('a user cannot be created if username already exists', async () => {
+  test('a user cannot be created if username already exists', async () => {
     const initialUsers = await helper.usersInDb()
 
     const newUser = {
@@ -100,7 +96,7 @@ describe('when adding users', () => {
     expect(response.body.error).toBe('username already exists')
 
     const currentUsers = await helper.usersInDb()
-    expect(currentUsers).toHaveLength(initialUsers.length )
+    expect(currentUsers).toHaveLength(initialUsers.length)
     const existingUsers = currentUsers.filter(user => user.username === newUser.username)
     expect(existingUsers).toHaveLength(1)
   })
