@@ -74,3 +74,10 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZ
   "url": "url-6",
   "likes": 15
 }
+
+### Incorrect token
+DELETE http://localhost:3003/api/blogs/62c94f4c74da16525d711c19
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNSIsImlkIjoiNjJjODY5Zjc1NDczYjU5ZjMyOGVkODA3IiwiaWF0IjoxNjU3MzYyNjM1LCJleHAiOjE2NTczNjMyMzV9.BwUl67b3lc2jKxq6XYmgu_dsxO9NawCLbqlK6FVmJcg
+
+
