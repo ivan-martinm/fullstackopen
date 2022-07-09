@@ -1,6 +1,7 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
@@ -12,27 +13,37 @@ blogsRouter.get('/:id', async (request, response) => {
   response.json(blog)
 })
 
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  return authorization && authorization.toLowerCase().startsWith('bearer ')
+    ? authorization.substring(7)
+    : null
+}
+
 blogsRouter.post('/', async (request, response) => {
+  const token = getTokenFrom(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid ' })
+  }
+
+  const user = await User.findById(decodedToken.id)
+
   const blog = new Blog({
     title: request.body.title,
     author: request.body.author,
     url: request.body.url,
-    likes: request.body.likes || 0
+    likes: request.body.likes || 0,
+    user: user._id
   })
+
   if (!blog.title || !blog.author) {
     return response.status(400).json({ error: 'title and author are required' })
   }
 
-  const users = await User.find({})
-  if (users.length === 0) {
-    blog.user = null
-  } else {
-    const randomUserInDb = users[Math.floor(Math.random() * users.length)]
-    blog.user = randomUserInDb._id
-    randomUserInDb.blogs = randomUserInDb.blogs.concat(blog._id)
-    await randomUserInDb.save()
-  }
   const result = await blog.save()
+  user.blogs = user.blogs.concat(blog._id)
+  await user.save()
   response.status(201).json(result)
 })
 

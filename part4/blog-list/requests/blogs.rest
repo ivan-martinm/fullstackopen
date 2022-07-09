@@ -6,6 +6,7 @@ GET http://localhost:3003/api/blogs/62c86a085473b59f328ed80a
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMSIsImlkIjoiNjJjODY5ZjA1NDczYjU5ZjMyOGVkN2ZiIiwiaWF0IjoxNjU3MzU3NDAyfQ.2MGsV3_GBmv7w-lbXrhNQTIfxxINeFp2LlTnHCHrTN4
 
 {
   "title": "First blog",
@@ -17,6 +18,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMiIsImlkIjoiNjJjODY5ZjI1NDczYjU5ZjMyOGVkN2ZlIiwiaWF0IjoxNjU3MzU3NDk3fQ.gXvAw7SMuHTdxRq65frbX5or0lz78QYkA2HHA98e3cQ
 
 {
   "title": "Second blog",
@@ -28,6 +30,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMyIsImlkIjoiNjJjODY5ZjQ1NDczYjU5ZjMyOGVkODAxIiwiaWF0IjoxNjU3MzU3NTEwfQ.ExVMZO6mfvq3GD6oLKzyIwvKtPF-0N_TQ4zi3eeO-Yo
 
 {
   "title": "Third blog",
@@ -39,6 +42,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNCIsImlkIjoiNjJjOTQ1MjQzZDYyMjRmNmQ2OTEwNmU4IiwiaWF0IjoxNjU3MzU3NjI1fQ.pkL64j-Y-cxsF1Jjch_NdfywoV8-bl1rdtdNOjNtUeQ
 
 {
   "title": "Fourth blog",
@@ -50,6 +54,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNSIsImlkIjoiNjJjODY5Zjc1NDczYjU5ZjMyOGVkODA3IiwiaWF0IjoxNjU3MzU3NzQ0fQ.D-U8RyENXpUlvJFk5oWLKBIKuWRm91wdHZrz4J5cvyo
 
 {
   "title": "Fifth blog",
@@ -58,9 +63,10 @@ Content-Type: application/json
   "likes": 12
 }
 
-###
+### Incorrect token
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNCIsImlkIjoiNjJjOTQ1MjQzZDYyMjRmNmQ2OTEwNmU4IiwiaWF0IjoxNjU3MzU3NjI1fQ.pkL64j-Y-cxsF1Jjch_NdfywoV8-bl1rdtdNOjNtUeX
 
 {
   "title": "Sixth blog",
