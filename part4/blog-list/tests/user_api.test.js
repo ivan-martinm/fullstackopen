@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt')
 const mongoose = require('mongoose')
 const User = require('../models/user')
 const helper = require('./test_helper')

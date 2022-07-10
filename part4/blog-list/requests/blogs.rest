@@ -6,7 +6,7 @@ GET http://localhost:3003/api/blogs/62c9459ca56a39ea1ba4855b
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMSIsImlkIjoiNjJjODY5ZjA1NDczYjU5ZjMyOGVkN2ZiIiwiaWF0IjoxNjU3MzU3NDAyfQ.2MGsV3_GBmv7w-lbXrhNQTIfxxINeFp2LlTnHCHrTN4
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRlZmF1bHQiLCJpZCI6IjYyYzg2OWVjNTQ3M2I1OWYzMjhlZDdmOCIsImlhdCI6MTY1NzQzOTkwMCwiZXhwIjoxNjU3NDQwNTAwfQ.qwvIUCFt97VqTQH28uvKzCcVFij9FQQW1-kR74HkbbM
 
 {
   "title": "First blog",
@@ -18,7 +18,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZ
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMiIsImlkIjoiNjJjODY5ZjI1NDczYjU5ZjMyOGVkN2ZlIiwiaWF0IjoxNjU3MzU3NDk3fQ.gXvAw7SMuHTdxRq65frbX5or0lz78QYkA2HHA98e3cQ
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMSIsImlkIjoiNjJjODY5ZjA1NDczYjU5ZjMyOGVkN2ZiIiwiaWF0IjoxNjU3NDM5OTMxLCJleHAiOjE2NTc0NDA1MzF9.ithqlzr6k7edIVuKfdsHeO4jIYwFza11BxQLDLgUlT4
 
 {
   "title": "Second blog",
@@ -30,7 +30,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZ
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMyIsImlkIjoiNjJjODY5ZjQ1NDczYjU5ZjMyOGVkODAxIiwiaWF0IjoxNjU3MzU3NTEwfQ.ExVMZO6mfvq3GD6oLKzyIwvKtPF-0N_TQ4zi3eeO-Yo
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMiIsImlkIjoiNjJjODY5ZjI1NDczYjU5ZjMyOGVkN2ZlIiwiaWF0IjoxNjU3NDM5OTQ4LCJleHAiOjE2NTc0NDA1NDh9.byLNomdBS0xtPxHr14DrLVAReSs2vzSYbPtOkC3vyF0
 
 {
   "title": "Third blog",
@@ -42,7 +42,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZ
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNCIsImlkIjoiNjJjOTQ1MjQzZDYyMjRmNmQ2OTEwNmU4IiwiaWF0IjoxNjU3MzU3NjI1fQ.pkL64j-Y-cxsF1Jjch_NdfywoV8-bl1rdtdNOjNtUeQ
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMyIsImlkIjoiNjJjODY5ZjQ1NDczYjU5ZjMyOGVkODAxIiwiaWF0IjoxNjU3NDM5OTYwLCJleHAiOjE2NTc0NDA1NjB9.-ZnZBEwSxsfaHvCjjtfXVVy4lcg63USuj9EBKmFz520
 
 {
   "title": "Fourth blog",
@@ -54,7 +54,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZ
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNSIsImlkIjoiNjJjODY5Zjc1NDczYjU5ZjMyOGVkODA3IiwiaWF0IjoxNjU3MzY0NzkwLCJleHAiOjE2NTczNjUzOTB9.OT66dlhMOxPGVF1hE5I7gmvw849inrqGvA_PJI0ncEw
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNCIsImlkIjoiNjJjOTQ1MjQzZDYyMjRmNmQ2OTEwNmU4IiwiaWF0IjoxNjU3NDM5OTczLCJleHAiOjE2NTc0NDA1NzN9.PDDTO7V7FGJHeWilelYoUR9k6J2CDot0jpH2N9Hd2QA
 
 {
   "title": "Fifth blog",
@@ -66,7 +66,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZ
 ### Incorrect token
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNCIsImlkIjoiNjJjOTQ1MjQzZDYyMjRmNmQ2OTEwNmU4IiwiaWF0IjoxNjU3MzU3NjI1fQ.pkL64j-Y-cxsF1Jjch_NdfywoV8-bl1rdtdNOjNtUeX
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNSIsImlkIjoiNjJjODY5Zjc1NDczYjU5ZjMyOGVkODA3IiwiaWF0IjoxNjU3NDM5OTg0LCJleHAiOjE2NTc0NDA1ODR9.ay4cfoVyRqhfX90giHHiIB8lvOV79cre_3lgMb2gPhM
 
 {
   "title": "Sixth blog",
@@ -75,9 +75,9 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZ
   "likes": 15
 }
 
-### Incorrect token
-DELETE http://localhost:3003/api/blogs/62c961708eca063df82a795b
+### Delete blog
+DELETE http://localhost:3003/api/blogs/62ca872329962a352cdcdf65
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNSIsImlkIjoiNjJjODY5Zjc1NDczYjU5ZjMyOGVkODA3IiwiaWF0IjoxNjU3MzY0Njk4LCJleHAiOjE2NTczNjUyOTh9.5QRWwu1d77z9c9keu_P1MpMCrGZhuVJRj39Eg1rTjK8
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNSIsImlkIjoiNjJjODY5Zjc1NDczYjU5ZjMyOGVkODA3IiwiaWF0IjoxNjU3NDM5OTg0LCJleHAiOjE2NTc0NDA1ODR9.ay4cfoVyRqhfX90giHHiIB8lvOV79cre_3lgMb2gPhM
 
 

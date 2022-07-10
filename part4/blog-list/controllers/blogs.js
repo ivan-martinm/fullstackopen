@@ -42,7 +42,7 @@ blogsRouter.delete('/:id', userExtractor, async (request, response) => {
   }
 
   if (blog.user.toString() === user.id.toString()) {
-    await Blog.remove(blog)
+    await Blog.findByIdAndDelete(blog.id) // I was using Blog.remove() but it seems it is deprecated
     response.status(204).end()
   } else {
     response.status(403).json({ error: 'permission denied' }) // I think 403 may be the best status code here
