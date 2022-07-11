@@ -12,5 +12,17 @@ const setToken = newToken => {
   token = `bearer ${newToken}`
 }
 
+const create = async newBlog => {
+  const config = {
+    headers: { Authorization: token }
+  }
 
-export default { getAll, setToken }
+  try {
+    const response = await axios.post(baseUrl, newBlog, config)
+    return response
+  } catch (exception) {
+    return exception.response
+  }
+}
+
+export default { getAll, setToken, create }

@@ -1,28 +1,9 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import LoginForm from './components/LoginForm'
+import NewBlogForm from './components/NewBlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
-
-const LoginForm = ({ handleLogin, username, setUsername, password, setPassword }) => {
-  return (
-    <div>
-      <h2>log in to application</h2>
-      <form onSubmit={handleLogin}>
-        <div>username
-          <input type="text" name="username"
-            value={username}
-            onChange={({ target }) => setUsername(target.value)} />
-        </div>
-        <div>password
-          <input type="password" name="password"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)} />
-        </div>
-        <button type="submit">login</button>
-      </form>
-    </div>
-  )
-}
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -30,10 +11,23 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
     )
+  }, [])
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
   }, [])
 
   const handleLogin = async event => {
@@ -51,13 +45,41 @@ const App = () => {
     }
   }
 
-  const handleLogout = () => {
+  const logout = () => {
     blogService.setToken(null)
     window.localStorage.removeItem('loggedBlogAppUser')
     setUser(null)
     setUsername('')
     setPassword('')
+  }
+
+  const handleLogout = () => {
+    logout()
     console.log('logged out')
+  }
+
+  const handleNewBlog = async event => {
+    event.preventDefault()
+    let newBlog = { title, author, url }
+    const response = await blogService.create(newBlog)
+    if (response.status === 400) {
+      console.log('title and author required')
+      return
+    }
+    if (response.status === 401) {
+      console.log('token expired')
+      return logout()
+    }
+    newBlog = {
+      id: response.data.id,
+      title: response.data.title,
+      author: response.data.author,
+      url: response.data.url
+    }
+    setBlogs(blogs.concat(newBlog))
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   return (
@@ -66,9 +88,13 @@ const App = () => {
         setUsername={setUsername} password={password}
         setPassword={setPassword} />
       : <div><h2>blogs</h2>
-        <p>{user.name} logged in 
-        <button onClick={handleLogout}>log out</button>
+        <p>{user.name} logged in
+          <button onClick={handleLogout}>log out</button>
         </p>
+        <NewBlogForm title={title} author={author}
+          url={url} setTitle={setTitle}
+          setAuthor={setAuthor} setUrl={setUrl}
+          handleNewBlog={handleNewBlog} />
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
         )}
