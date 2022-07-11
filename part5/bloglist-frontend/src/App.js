@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import NewBlogForm from './components/NewBlogForm'
 import blogService from './services/blogs'
@@ -14,6 +15,8 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -36,12 +39,14 @@ const App = () => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      console.log('logged in')
+      setMessage({ text: 'Login successful', isError: false })
+      setTimeout(() => { setMessage(null) }, 5000)
       setUser(user)
       setUsername('')
       setPassword('')
     } catch (exception) {
-      console.log('wrong credentials')
+      setMessage({ text: 'Wrong username or password', isError: true })
+      setTimeout(() => { setMessage(null) }, 5000)
     }
   }
 
@@ -55,7 +60,8 @@ const App = () => {
 
   const handleLogout = () => {
     logout()
-    console.log('logged out')
+    setMessage({ text: 'Logged out', isError: false })
+    setTimeout(() => { setMessage(null) }, 5000)
   }
 
   const handleNewBlog = async event => {
@@ -63,11 +69,13 @@ const App = () => {
     let newBlog = { title, author, url }
     const response = await blogService.create(newBlog)
     if (response.status === 400) {
-      console.log('title and author required')
+      setMessage({ text: 'title and author required', isError: true })
+      setTimeout(() => { setMessage(null) }, 5000)
       return
     }
     if (response.status === 401) {
-      console.log('token expired')
+      setMessage({ text: 'token expired', isError: true })
+      setTimeout(() => { setMessage(null) }, 5000)
       return logout()
     }
     newBlog = {
@@ -83,22 +91,26 @@ const App = () => {
   }
 
   return (
-    user === null
-      ? <LoginForm handleLogin={handleLogin} username={username}
-        setUsername={setUsername} password={password}
-        setPassword={setPassword} />
-      : <div><h2>blogs</h2>
-        <p>{user.name} logged in
-          <button onClick={handleLogout}>log out</button>
-        </p>
-        <NewBlogForm title={title} author={author}
-          url={url} setTitle={setTitle}
-          setAuthor={setAuthor} setUrl={setUrl}
-          handleNewBlog={handleNewBlog} />
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
-        )}
-      </div>
+    <>
+      <Notification message={message} />
+      {user === null
+        ? <LoginForm handleLogin={handleLogin} username={username}
+          setUsername={setUsername} password={password}
+          setPassword={setPassword} />
+        : <div><h2>blogs</h2>
+          <p>{user.name} logged in
+            <button onClick={handleLogout}>log out</button>
+          </p>
+          <NewBlogForm title={title} author={author}
+            url={url} setTitle={setTitle}
+            setAuthor={setAuthor} setUrl={setUrl}
+            handleNewBlog={handleNewBlog} />
+          {blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} />
+          )}
+        </div>
+      }
+    </>
   )
 }
 
