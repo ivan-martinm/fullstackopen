@@ -14,7 +14,7 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
+    blogService.getAll().then(blogs => 
       setBlogs(blogs)
     )
   }, [])
@@ -41,7 +41,7 @@ const App = () => {
       setTimeout(() => { setMessage(null) }, 5000)
     }
   }
-  
+
   const logout = () => {
     blogService.setToken(null)
     window.localStorage.removeItem('loggedBlogAppUser')
@@ -67,12 +67,7 @@ const App = () => {
       return logout()
     }
     blogFormRef.current.toggleVisibility()
-    newBlog = {
-      id: response.data.id,
-      title: response.data.title,
-      author: response.data.author,
-      url: response.data.url
-    }
+    newBlog = await blogService.get(response.data.id)
     setBlogs(blogs.concat(newBlog))
   }
 

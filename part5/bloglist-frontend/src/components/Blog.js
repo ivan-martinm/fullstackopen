@@ -1,7 +1,28 @@
-const Blog = ({blog}) => (
-  <div>
-    {blog.title} {blog.author}
-  </div>  
-)
+import { useState } from 'react'
+
+const Blog = ({ blog }) => {
+  const [collapsed, setCollapsed] = useState(true)
+  const frameStyle = {
+    border: '2px solid',
+    marginBottom: 5,
+    paddingTop: 10,
+    paddingLeft: 2
+  }
+
+  const hideWhenCollapsed = { display: collapsed ? 'none' : '' }
+  const toggleCollapsed = () => setCollapsed(!collapsed)
+
+  return (
+    < div style={frameStyle} >
+      {blog.title} {blog.author} <button onClick={toggleCollapsed}>{collapsed ? 'view' : 'hide'}</button>
+      <div style={hideWhenCollapsed}>
+        <div>{blog.url}</div>
+        <div>likes {blog.likes} <button>like</button></div>
+        <div>{blog.user.name}</div>
+      </div>
+    </div>
+  )
+}
+
 
 export default Blog
