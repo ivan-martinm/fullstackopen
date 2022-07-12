@@ -14,7 +14,7 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs => 
+    blogService.getAll().then(blogs =>
       setBlogs(blogs)
     )
   }, [])
@@ -28,7 +28,7 @@ const App = () => {
     }
   }, [])
 
-  const login = async ({username, password }) => {
+  const login = async ({ username, password }) => {
     try {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
@@ -71,6 +71,19 @@ const App = () => {
     setBlogs(blogs.concat(newBlog))
   }
 
+  const likeBlog = async (blog) => {
+    const response = await blogService.like(blog)
+    if (response.status === 401) {
+      setMessage({ text: 'token expired', isError: true })
+      setTimeout(() => { setMessage(null) }, 5000)
+      return logout()
+    }
+    blog = await blogService.get(response.data.id)
+    setMessage({ text: 'likes increased', isError: false })
+    setTimeout(() => { setMessage(null) }, 5000)
+    return blog
+  }
+
   return (
     <>
       <Notification message={message} />
@@ -85,7 +98,7 @@ const App = () => {
             <NewBlogForm createNewBlog={createBlog} />
           </Toggleable>
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
           )}
         </div>
       }

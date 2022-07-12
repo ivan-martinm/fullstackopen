@@ -1,7 +1,9 @@
 import { useState } from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, likeBlog }) => {
   const [collapsed, setCollapsed] = useState(true)
+  const [currentBlog, setCurrentBlog] = useState(blog)
+
   const frameStyle = {
     border: '2px solid',
     marginBottom: 5,
@@ -12,13 +14,18 @@ const Blog = ({ blog }) => {
   const hideWhenCollapsed = { display: collapsed ? 'none' : '' }
   const toggleCollapsed = () => setCollapsed(!collapsed)
 
+  const like = async () => {
+    blog = await likeBlog(currentBlog)
+    setCurrentBlog(blog)
+  }
+
   return (
     < div style={frameStyle} >
-      {blog.title} {blog.author} <button onClick={toggleCollapsed}>{collapsed ? 'view' : 'hide'}</button>
+      {currentBlog.title} {currentBlog.author} <button onClick={toggleCollapsed}>{collapsed ? 'view' : 'hide'}</button>
       <div style={hideWhenCollapsed}>
-        <div>{blog.url}</div>
-        <div>likes {blog.likes} <button>like</button></div>
-        <div>{blog.user.name}</div>
+        <div>{currentBlog.url}</div>
+        <div>likes {currentBlog.likes} <button onClick={like}>like</button></div>
+        <div>{currentBlog.user.name}</div>
       </div>
     </div>
   )
