@@ -9,16 +9,8 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-
   const [message, setMessage] = useState(null)
-
   const blogFormRef = useRef()
 
   useEffect(() => {
@@ -36,8 +28,7 @@ const App = () => {
     }
   }, [])
 
-  const handleLogin = async event => {
-    event.preventDefault()
+  const login = async ({username, password }) => {
     try {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
@@ -45,20 +36,16 @@ const App = () => {
       setMessage({ text: 'Login successful', isError: false })
       setTimeout(() => { setMessage(null) }, 5000)
       setUser(user)
-      setUsername('')
-      setPassword('')
     } catch (exception) {
       setMessage({ text: 'Wrong username or password', isError: true })
       setTimeout(() => { setMessage(null) }, 5000)
     }
   }
-
+  
   const logout = () => {
     blogService.setToken(null)
     window.localStorage.removeItem('loggedBlogAppUser')
     setUser(null)
-    setUsername('')
-    setPassword('')
   }
 
   const handleLogout = () => {
@@ -67,9 +54,7 @@ const App = () => {
     setTimeout(() => { setMessage(null) }, 5000)
   }
 
-  const handleNewBlog = async event => {
-    event.preventDefault()
-    let newBlog = { title, author, url }
+  const createBlog = async (newBlog) => {
     const response = await blogService.create(newBlog)
     if (response.status === 400) {
       setMessage({ text: 'title and author required', isError: true })
@@ -89,9 +74,6 @@ const App = () => {
       url: response.data.url
     }
     setBlogs(blogs.concat(newBlog))
-    setTitle('')
-    setAuthor('')
-    setUrl('')
   }
 
   return (
@@ -99,18 +81,13 @@ const App = () => {
       <Notification message={message} />
       {user === null
         ?
-        <LoginForm handleLogin={handleLogin} username={username}
-          setUsername={setUsername} password={password}
-          setPassword={setPassword} />
+        <LoginForm login={login} />
         : <div><h2>blogs</h2>
           <p>{user.name} logged in
             <button onClick={handleLogout}>log out</button>
           </p>
           <Toggleable buttonLabel="new blog" ref={blogFormRef}>
-            <NewBlogForm title={title} author={author}
-              url={url} setTitle={setTitle}
-              setAuthor={setAuthor} setUrl={setUrl}
-              handleNewBlog={handleNewBlog} />
+            <NewBlogForm createNewBlog={createBlog} />
           </Toggleable>
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
