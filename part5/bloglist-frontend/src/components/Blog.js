@@ -24,13 +24,13 @@ const Blog = ({ blog, likeBlog, user, deleteBlog }) => {
   }
 
   return (
-    < div style={frameStyle} >
+    < div style={frameStyle} className='fixedContent'>
       {blog.title} {blog.author} <button onClick={toggleCollapsed}>{collapsed ? 'view' : 'hide'}</button>
-      <div style={hideWhenCollapsed}>
+      <div style={hideWhenCollapsed} className='toggleableContent'>
         <div>{blog.url}</div>
         <div>likes {blog.likes} <button onClick={like}>like</button></div>
         <div>{blog.user.name}</div>
-        {user.username === blog.user.username
+        {user && user.username === blog.user.username
           ?
           <div>
             <button onClick={remove}>remove</button>
