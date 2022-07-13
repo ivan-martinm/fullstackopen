@@ -15,7 +15,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs(blogs)
+      sortBlogsByLikes(blogs)
     )
   }, [])
 
@@ -81,7 +81,16 @@ const App = () => {
     blog = await blogService.get(response.data.id)
     setMessage({ text: 'likes increased', isError: false })
     setTimeout(() => { setMessage(null) }, 5000)
+    const currentBlogs = blogs.map(b => b.id === blog.id ? blog : b)
+    sortBlogsByLikes(currentBlogs)
     return blog
+  }
+
+  const sortBlogsByLikes = (blogs) => {
+    const sortedList = [...blogs]
+    sortedList.sort((a, b) => a.likes - b.likes)
+    sortedList.reverse()
+    setBlogs(sortedList)
   }
 
   return (
