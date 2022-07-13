@@ -86,6 +86,19 @@ const App = () => {
     return blog
   }
 
+  const deleteBlog = async (id) => {
+    const response = await blogService.remove(id)
+    if (response.status === 401) {
+      setMessage({ text: 'token expired', isError: true })
+      setTimeout(() => { setMessage(null) }, 5000)
+      return logout()
+    }
+    setMessage({ text: 'blog deleted', isError: false })
+    setTimeout(() => { setMessage(null) }, 5000)
+    const currentBlogs = blogs.filter(b => b.id !== id)
+    sortBlogsByLikes(currentBlogs)
+  }
+
   const sortBlogsByLikes = (blogs) => {
     const sortedList = [...blogs]
     sortedList.sort((a, b) => a.likes - b.likes)
@@ -107,7 +120,9 @@ const App = () => {
             <NewBlogForm createNewBlog={createBlog} />
           </Toggleable>
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} likeBlog={likeBlog} />
+            <Blog key={blog.id} blog={blog} 
+            likeBlog={likeBlog} deleteBlog={deleteBlog}
+            user={user} />
           )}
         </div>
       }
