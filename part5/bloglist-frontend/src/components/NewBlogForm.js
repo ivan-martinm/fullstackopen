@@ -15,22 +15,22 @@ const NewBlogForm = ({ createNewBlog }) => {
   }
 
   return (
-    <div>
+    <div className='form'>
       <h2>create new</h2>
       <form onSubmit={create}>
         <div>title:
           <input type="text" name="title"
-            value={title}
+            value={title} id='title-input'
             onChange={({ target }) => setTitle(target.value)} />
         </div>
         <div>author:
           <input type="text" name="author"
-            value={author}
+            value={author} id='author-input'
             onChange={({ target }) => setAuthor(target.value)} />
         </div>
         <div>url:
           <input type="text" name="url"
-            value={url}
+            value={url} id='url-input'
             onChange={({ target }) => setUrl(target.value)} />
         </div>
         <button type="submit">create</button>

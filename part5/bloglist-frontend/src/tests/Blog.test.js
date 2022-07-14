@@ -1,4 +1,5 @@
 import Blog from '../components/Blog'
+import NewBlogForm from '../components/NewBlogForm'
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
@@ -67,5 +68,30 @@ describe('testing <Blog /> component', () => {
     await user.click(button)
 
     expect(incrementLikes.mock.calls).toHaveLength(2)
+  })
+})
+
+describe('testing <NewBlogForm /> component', () => {
+  test('the form calls the event handler received as props with the right details', async () => {
+    const createNewBlog = jest.fn()
+    const user = userEvent.setup()
+
+    const { container } = render(<NewBlogForm createNewBlog={createNewBlog} />)
+
+    const titleInput = container.querySelector('#title-input')
+    const authorInput = container.querySelector('#author-input')
+    const urlInput = container.querySelector('#url-input')
+    const button = screen.getByText('create')
+
+    await user.type(titleInput, 'Blog title')
+    await user.type(authorInput, 'Blog author')
+    await user.type(urlInput, 'Blog url')
+
+    await user.click(button)
+
+    expect(createNewBlog.mock.calls).toHaveLength(1)
+    expect(createNewBlog.mock.calls[0][0].title).toBe('Blog title')
+    expect(createNewBlog.mock.calls[0][0].author).toBe('Blog author')
+    expect(createNewBlog.mock.calls[0][0].url).toBe('Blog url')
   })
 })
