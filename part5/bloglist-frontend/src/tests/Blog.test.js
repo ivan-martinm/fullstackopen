@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-describe('testing Blog component', () => {
+describe('testing <Blog /> component', () => {
   let container
 
   beforeEach(() => {
@@ -39,5 +39,33 @@ describe('testing Blog component', () => {
     const div = container.querySelector('.toggleableContent')
     expect(div).not.toHaveStyle('display: none')
   })
+})
 
+describe('testing <Blog /> component', () => {
+  test('Event handler received as props by the component is called twice', async () => {
+    const incrementLikes = jest.fn()
+
+    const blog = <Blog blog={
+      {
+        title: 'This is the title',
+        author: 'Anonymous',
+        url: 'http://localhost',
+        likes: 13,
+        user: {
+          username: 'user01',
+          name: 'User 01',
+        }
+      }
+    } likeBlog={incrementLikes} />
+
+    render(blog)
+
+    const user = userEvent.setup()
+
+    const button = screen.getByText('like')
+    await user.click(button)
+    await user.click(button)
+
+    expect(incrementLikes.mock.calls).toHaveLength(2)
+  })
 })
