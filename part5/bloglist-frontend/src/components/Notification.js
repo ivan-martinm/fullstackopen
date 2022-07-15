@@ -12,7 +12,7 @@ const Notification = ({ message }) => {
     backgroundColor: 'lightgrey'
   }
   return (
-    <div style={style}>{message.text}</div>
+    <div className='notification' style={style}>{message.text}</div>
   )
 }
 

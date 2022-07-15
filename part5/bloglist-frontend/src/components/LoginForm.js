@@ -13,20 +13,20 @@ const LoginForm = ({ login }) => {
   }
 
   return (
-    <div className='loginFormContainer'>
+    <div className='login-form'>
       <h2>log in to application</h2>
       <form onSubmit={handleLogin}>
         <div>username
           <input type="text" name="username"
-            value={username}
+            value={username} id='username'
             onChange={({ target }) => setUsername(target.value)} />
         </div>
         <div>password
           <input type="password" name="password"
-            value={password}
+            value={password} id='password'
             onChange={({ target }) => setPassword(target.value)} />
         </div>
-        <button type="submit">login</button>
+        <button type="submit" id='submit-button'>login</button>
       </form>
     </div>
   )
