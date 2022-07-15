@@ -58,10 +58,36 @@ describe('Blog app', function () {
       })
 
       it('Users can like a blog', function () {
-        cy.contains('view').click()
+        cy.contains('Default Blog').contains('view').click()
         cy.get('.likes').should('contain', 'likes 0')
         cy.get('#like-button').click()
         cy.get('.likes').should('contain', 'likes 1')
+      })
+
+      it('User who created the blog can delete it', function () {
+        cy.contains('view').click()
+        /* According to cypress documentation, apparently cypress automatically
+         accepts window.alert/confirmation so I only have to assert on the text content*/
+        const stub = cy.stub()
+        cy.on('window:confirm', stub)
+        cy.get('#delete-button')
+          .click()
+          .then(() =>
+            expect(stub.getCall(0)).to.be.calledWith('Remove blog Default Blog by Default Author ?'))
+
+        cy.get('html').should('not.contain', 'Default Blog Default Author')
+      })
+
+      it('Users cannot delete other user\'s blogs', function () {
+        cy.request('POST', 'http://localhost:3003/api/users', {
+          username: 'user01',
+          name: 'User01',
+          password: 'password01'
+        })
+        cy.login({ username: 'user01', password: 'password01' })
+
+        cy.contains('Default Blog').contains('view').click()
+        cy.contains('Default Blog').find('#delete-button').should('not.exist')
       })
     })
   })
