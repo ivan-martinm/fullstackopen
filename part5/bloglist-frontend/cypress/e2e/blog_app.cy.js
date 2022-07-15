@@ -90,5 +90,33 @@ describe('Blog app', function () {
         cy.contains('Default Blog').find('#delete-button').should('not.exist')
       })
     })
+
+    describe('When several blogs exist', function () {
+      beforeEach(function () {
+        cy.createBlog({ title: 'Blog with 0 likes', author: 'Author 0', url: 'http://0likesblog.url' })
+        cy.createBlog({ title: 'Blog with 1 likes', author: 'Author 1', url: 'http://1likesblog.url' })
+        cy.createBlog({ title: 'Blog with 2 likes', author: 'Author 2', url: 'http://2likesblog.url' })
+
+        cy.contains('Blog with 1 likes').contains('view').click()
+        cy.contains('Blog with 0 likes').contains('view').click()
+        cy.contains('Blog with 2 likes').contains('view').click()
+      })
+
+      it('Blogs are ordered by number of likes', function () {
+        cy.contains('Blog with 1 likes').find('#like-button').click()
+        cy.contains('Blog with 1 likes').find('.likes').should('contain', 'likes 1')
+        cy.get('.blog-content').eq(0).should('contain', 'Blog with 1 likes')
+
+        cy.contains('Blog with 2 likes').find('#like-button').click()
+        cy.contains('Blog with 2 likes').find('.likes').should('contain', 'likes 1')
+        cy.get('.blog-content').eq(2).should('contain', 'Blog with 0 likes')
+
+        cy.contains('Blog with 2 likes').find('#like-button').click()
+        cy.contains('Blog with 2 likes').find('.likes').should('contain', 'likes 2')
+        cy.get('.blog-content').eq(0).should('contain', 'Blog with 2 likes')
+        cy.get('.blog-content').eq(1).should('contain', 'Blog with 1 likes')
+        cy.get('.blog-content').eq(2).should('contain', 'Blog with 0 likes')
+      })
+    })
   })
 })
