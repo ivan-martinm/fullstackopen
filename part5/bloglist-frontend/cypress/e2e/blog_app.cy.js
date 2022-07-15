@@ -36,4 +36,20 @@ describe('Blog app', function () {
       cy.get('html').should('not.contain', 'Default user logged in')
     })
   })
+
+  describe('When logged in', function () {
+    beforeEach(function () {
+      cy.login({ username: 'default', password: 'defaultPassword' })
+    })
+
+    it.only('A blog can be created', function () {
+      cy.contains('new blog').click()
+      cy.get('#title-input').type('Another blog')
+      cy.get('#author-input').type('Another author')
+      cy.get('#url-input').type('http://another.url')
+      cy.get('#create-button').click()
+
+      cy.get('html').should('contain', 'Another blog Another author view')
+    })
+  })
 })
