@@ -42,7 +42,7 @@ describe('Blog app', function () {
       cy.login({ username: 'default', password: 'defaultPassword' })
     })
 
-    it.only('A blog can be created', function () {
+    it('A blog can be created', function () {
       cy.contains('new blog').click()
       cy.get('#title-input').type('Another blog')
       cy.get('#author-input').type('Another author')
@@ -50,6 +50,19 @@ describe('Blog app', function () {
       cy.get('#create-button').click()
 
       cy.get('html').should('contain', 'Another blog Another author view')
+    })
+
+    describe('When blogs exist', function () {
+      beforeEach(function () {
+        cy.createBlog({ title: 'Default Blog', author: 'Default Author', url: 'http://default.url' })
+      })
+
+      it('Users can like a blog', function () {
+        cy.contains('view').click()
+        cy.get('.likes').should('contain', 'likes 0')
+        cy.get('#like-button').click()
+        cy.get('.likes').should('contain', 'likes 1')
+      })
     })
   })
 })

@@ -28,7 +28,7 @@ const Blog = ({ blog, likeBlog, user, deleteBlog }) => {
       {blog.title} {blog.author} <button onClick={toggleCollapsed}>{collapsed ? 'view' : 'hide'}</button>
       <div style={hideWhenCollapsed} className='toggleableContent'>
         <div>{blog.url}</div>
-        <div>likes {blog.likes} <button onClick={like}>like</button></div>
+        <div className='likes'>likes {blog.likes} <button onClick={like} id='like-button'>like</button></div>
         <div>{blog.user.name}</div>
         {user && user.username === blog.user.username
           ?
