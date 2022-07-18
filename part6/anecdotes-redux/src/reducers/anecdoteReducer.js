@@ -19,6 +19,10 @@ export const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
+export const sortAnecdotes = (anecdotes) => {
+  return [...anecdotes].sort((a, b) => b.votes - a.votes)
+}
+
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)

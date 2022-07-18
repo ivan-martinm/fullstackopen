@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { asObject as anecdoteObject } from './reducers/anecdoteReducer' 
+import { sortAnecdotes, asObject as anecdoteObject } from './reducers/anecdoteReducer' 
 
 const App = () => {
-  const anecdotes = useSelector(state => state)
+  const anecdotes = useSelector(state => sortAnecdotes(state))
   const dispatch = useDispatch()
 
   const vote = (id) => {
