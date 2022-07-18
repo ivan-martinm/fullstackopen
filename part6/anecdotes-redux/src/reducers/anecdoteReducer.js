@@ -23,6 +23,20 @@ export const sortAnecdotes = (anecdotes) => {
   return [...anecdotes].sort((a, b) => b.votes - a.votes)
 }
 
+export const voteAnecdote = id => {
+  return {
+    type: 'VOTE',
+    data: { id }
+  }
+}
+
+export const createAnecdote = anecdoteContent => {
+  return {
+    type: 'NEW_ANECDOTE',
+    data: asObject(anecdoteContent)
+  }
+}
+
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
