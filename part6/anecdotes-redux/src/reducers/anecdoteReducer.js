@@ -45,8 +45,8 @@ const reducer = (state = initialState, action) => {
     case 'VOTE':
       const id = action.data.id
       const anecdoteToChange = state.find(anecdote => anecdote.id === id)
-      anecdoteToChange.votes++
-      return [...state.map(anecdote => anecdote.id !== id ? anecdote : anecdoteToChange)]
+      const changedAnecdote = { ...anecdoteToChange, votes: anecdoteToChange.votes + 1 }
+      return state.map(anecdote => anecdote.id !== id ? anecdote : changedAnecdote)
 
     case 'NEW_ANECDOTE':
       return [...state, action.data]
