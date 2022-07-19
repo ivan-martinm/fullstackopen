@@ -8,14 +8,13 @@ const notificationSlice = createSlice({
       return state = action.payload
     },
     hideNotification(state, action) {
-      return state = ''
+      return null
     }
   }
 })
 
 export const { showNotification, hideNotification } = notificationSlice.actions
 export const setNotification = (message, time) => {
-  console.log(time)
   return async dispatch => {
     dispatch(showNotification(message))
     setTimeout(() => {
