@@ -63,6 +63,13 @@ const CreateNew = (props) => {
   const author = useField('author')
   const info = useField('info')
 
+  const handleReset = event => {
+    event.preventDefault()
+    content.reset()
+    author.reset()
+    info.reset()
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
@@ -91,7 +98,10 @@ const CreateNew = (props) => {
           url for more info
           <input {...info} />
         </div>
-        <button>create</button>
+        <div>
+          <button>create</button>
+          <button onClick={handleReset}>reset</button>
+        </div>
       </form>
     </div>
   )
@@ -135,7 +145,7 @@ const App = () => {
   ])
 
   const [notification, setNotification] = useState('')
- 
+
   const showNotification = message => {
     if (timeOutId) {
       clearTimeout(timeOutId)
