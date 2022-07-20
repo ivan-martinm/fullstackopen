@@ -65,9 +65,9 @@ const CreateNew = (props) => {
 
   const handleReset = event => {
     event.preventDefault()
-    content.reset()
-    author.reset()
-    info.reset()
+    content.onReset()
+    author.onReset()
+    info.onReset()
   }
 
   const handleSubmit = (e) => {
