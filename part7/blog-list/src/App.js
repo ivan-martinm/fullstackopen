@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
+import { setMessage } from './reducers/notificationReducer'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
@@ -10,12 +12,18 @@ import loginService from './services/login'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [message, setMessage] = useState(null)
+  
   const blogFormRef = useRef()
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     blogService.getAll().then((blogs) => sortBlogsByLikes(blogs))
   }, [])
+
+  useEffect(() => {
+    blogService.getAll().then()
+  })
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
@@ -31,15 +39,15 @@ const App = () => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      setMessage({ text: 'Login successful', isError: false })
+      dispatch(setMessage({ text: 'Login successful', isError: false }))
       setTimeout(() => {
-        setMessage(null)
+        dispatch(setMessage(null))
       }, 5000)
       setUser(user)
     } catch (exception) {
-      setMessage({ text: 'Wrong username or password', isError: true })
+      dispatch(setMessage({ text: 'Wrong username or password', isError: true }))
       setTimeout(() => {
-        setMessage(null)
+        dispatch(setMessage(null))
       }, 5000)
     }
   }
@@ -52,25 +60,25 @@ const App = () => {
 
   const handleLogout = () => {
     logout()
-    setMessage({ text: 'Logged out', isError: false })
+    dispatch(setMessage({ text: 'Logged out', isError: false }))
     setTimeout(() => {
-      setMessage(null)
+      dispatch(setMessage(null))
     }, 5000)
   }
 
   const createBlog = async (newBlog) => {
     const response = await blogService.create(newBlog)
     if (response.status === 400) {
-      setMessage({ text: 'title and author required', isError: true })
+      dispatch(setMessage({ text: 'title and author required', isError: true }))
       setTimeout(() => {
-        setMessage(null)
+        dispatch(setMessage(null))
       }, 5000)
       return
     }
     if (response.status === 401) {
-      setMessage({ text: 'token expired', isError: true })
+      dispatch(setMessage({ text: 'token expired', isError: true }))
       setTimeout(() => {
-        setMessage(null)
+        dispatch(setMessage(null))
       }, 5000)
       return logout()
     }
@@ -82,16 +90,16 @@ const App = () => {
   const likeBlog = async (blog) => {
     const response = await blogService.like(blog)
     if (response.status === 401) {
-      setMessage({ text: 'token expired', isError: true })
+      dispatch(setMessage({ text: 'token expired', isError: true }))
       setTimeout(() => {
-        setMessage(null)
+        dispatch(setMessage(null))
       }, 5000)
       return logout()
     }
     blog = await blogService.get(response.data.id)
-    setMessage({ text: 'likes increased', isError: false })
+    dispatch(setMessage({ text: 'likes increased', isError: false }))
     setTimeout(() => {
-      setMessage(null)
+      dispatch(setMessage(null))
     }, 5000)
     const currentBlogs = blogs.map((b) => (b.id === blog.id ? blog : b))
     sortBlogsByLikes(currentBlogs)
@@ -101,15 +109,15 @@ const App = () => {
   const deleteBlog = async (id) => {
     const response = await blogService.remove(id)
     if (response.status === 401) {
-      setMessage({ text: 'token expired', isError: true })
+      dispatch(setMessage({ text: 'token expired', isError: true }))
       setTimeout(() => {
-        setMessage(null)
+        dispatch(setMessage(null))
       }, 5000)
       return logout()
     }
-    setMessage({ text: 'blog deleted', isError: false })
+    dispatch(setMessage({ text: 'blog deleted', isError: false }))
     setTimeout(() => {
-      setMessage(null)
+      dispatch(setMessage(null))
     }, 5000)
     const currentBlogs = blogs.filter((b) => b.id !== id)
     sortBlogsByLikes(currentBlogs)
@@ -124,7 +132,7 @@ const App = () => {
 
   return (
     <>
-      <Notification message={message} />
+      <Notification />
       {user === null ? (
         <LoginForm login={login} />
       ) : (
