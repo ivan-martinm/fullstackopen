@@ -9,6 +9,7 @@ import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import Users from './components/Users'
+import User from './components/User'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -47,6 +48,7 @@ const App = () => {
             <Routes>
             <Route path="/" element={<Blogs />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/users/:id" element={<User />} />
             </Routes>
           </div>
         )}
