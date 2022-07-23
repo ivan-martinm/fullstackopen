@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setMessage } from './reducers/notificationReducer'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
@@ -8,22 +8,18 @@ import NewBlogForm from './components/NewBlogForm'
 import Toggleable from './components/Toggleable'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import { initializeBlogs, createBlog } from './reducers/blogReducer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  const dispatch = useDispatch()
+  const blogs = useSelector((state) => state.blogs)
   const [user, setUser] = useState(null)
-  
+
   const blogFormRef = useRef()
 
-  const dispatch = useDispatch()
-
   useEffect(() => {
-    blogService.getAll().then((blogs) => sortBlogsByLikes(blogs))
-  }, [])
-
-  useEffect(() => {
-    blogService.getAll().then()
-  })
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
@@ -39,13 +35,15 @@ const App = () => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
+      setUser(user)
       dispatch(setMessage({ text: 'Login successful', isError: false }))
       setTimeout(() => {
         dispatch(setMessage(null))
       }, 5000)
-      setUser(user)
     } catch (exception) {
-      dispatch(setMessage({ text: 'Wrong username or password', isError: true }))
+      dispatch(
+        setMessage({ text: 'Wrong username or password', isError: true })
+      )
       setTimeout(() => {
         dispatch(setMessage(null))
       }, 5000)
@@ -66,27 +64,14 @@ const App = () => {
     }, 5000)
   }
 
-  const createBlog = async (newBlog) => {
-    const response = await blogService.create(newBlog)
-    if (response.status === 400) {
-      dispatch(setMessage({ text: 'title and author required', isError: true }))
-      setTimeout(() => {
-        dispatch(setMessage(null))
-      }, 5000)
-      return
-    }
-    if (response.status === 401) {
-      dispatch(setMessage({ text: 'token expired', isError: true }))
-      setTimeout(() => {
-        dispatch(setMessage(null))
-      }, 5000)
-      return logout()
-    }
-    blogFormRef.current.toggleVisibility()
-    newBlog = await blogService.get(response.data.id)
-    setBlogs(blogs.concat(newBlog))
+  const createNewBlog = (newBlog) => {
+    dispatch(createBlog(newBlog, logout)).then((result) => {
+      if (result) {
+        blogFormRef.current.toggleVisibility()
+      }
+    })
   }
-
+  
   const likeBlog = async (blog) => {
     const response = await blogService.like(blog)
     if (response.status === 401) {
@@ -126,8 +111,7 @@ const App = () => {
   const sortBlogsByLikes = (blogs) => {
     const sortedList = [...blogs]
     sortedList.sort((a, b) => a.likes - b.likes)
-    sortedList.reverse()
-    setBlogs(sortedList)
+    return sortedList.reverse()
   }
 
   return (
@@ -143,9 +127,9 @@ const App = () => {
             <button onClick={handleLogout}>log out</button>
           </p>
           <Toggleable buttonLabel="new blog" ref={blogFormRef}>
-            <NewBlogForm createNewBlog={createBlog} />
+            <NewBlogForm createNewBlog={createNewBlog} />
           </Toggleable>
-          {blogs.map((blog) => (
+          {sortBlogsByLikes(blogs).map((blog) => (
             <Blog
               key={blog.id}
               blog={blog}
