@@ -10,6 +10,7 @@ import blogService from './services/blogs'
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import Users from './components/Users'
 import User from './components/User'
+import BlogDetails from './components/BlogDetails'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -47,8 +48,10 @@ const App = () => {
             </p>
             <Routes>
             <Route path="/" element={<Blogs />} />
+            <Route path="/blogs" element={<Blogs />} />
             <Route path="/users" element={<Users />} />
             <Route path="/users/:id" element={<User />} />
+            <Route path="/blogs/:id" element={<BlogDetails />} />
             </Routes>
           </div>
         )}
