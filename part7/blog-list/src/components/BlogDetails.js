@@ -25,7 +25,7 @@ const BlogDetails = () => {
 
   useEffect(() => {
     blogService.get(id).then((b) => setBlog(b))
-  })
+  }, [])
 
   return !blog ? null : (
     <div>
@@ -46,6 +46,12 @@ const BlogDetails = () => {
       ) : (
         ''
       )}
+      <h3>comments</h3>
+      <ul>
+        {blog.comments.map((comment) => (
+          <li key={comment._id}>{comment.comment}</li>
+        ))}
+      </ul>
     </div>
   )
 }
