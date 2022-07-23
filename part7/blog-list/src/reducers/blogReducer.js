@@ -70,6 +70,32 @@ export const like = (blog) => {
   }
 }
 
+export const comment = (id, comment) => {
+  return async (dispatch) => {
+    const response = await blogService.comment(id, comment)
+    if (response.status === 400) {
+      dispatch(setMessage({ text: 'comment text must not be empty', isError: true }))
+      setTimeout(() => {
+        dispatch(setMessage(null))
+      }, 5000)
+      return false
+    }
+    if (response.status === 401) {
+      dispatch(setMessage({ text: 'token expired', isError: true }))
+      setTimeout(() => {
+        dispatch(setMessage(null))
+      }, 5000)
+      return dispatch(logout())
+    }
+    const blog = await blogService.get(response.data.id)
+    dispatch(updateBlog(blog))
+    dispatch(setMessage({ text: 'comment added', isError: false }))
+    setTimeout(() => {
+      dispatch(setMessage(null))
+    }, 5000)
+  }
+}
+
 export const remove = (id) => {
   return async (dispatch) => {
     const response = await blogService.remove(id)

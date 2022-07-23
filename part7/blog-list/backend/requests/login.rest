@@ -1,0 +1,52 @@
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "default",
+  "password": "defaultpassword"
+}
+
+###
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "user01",
+  "password": "password01"
+}
+
+###
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "user02",
+  "password": "password02"
+}
+
+###
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "user03",
+  "password": "password03"
+}
+
+###
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "user04",
+  "password": "password04"
+}
+
+###
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "user05",
+  "password": "password05"
+}

@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { like, remove } from '../reducers/blogReducer'
+import { like, remove, comment } from '../reducers/blogReducer'
 import blogService from '../services/blogs'
 import { useNavigate } from 'react-router-dom'
 
 const BlogDetails = () => {
   const [blog, setBlog] = useState(null)
+  const [commentValue, setCommentValue] = useState('')
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const id = useParams().id
   const navigate = useNavigate()
 
+  const handleComment = (target) => {
+    setCommentValue(target.value)
+  }
+
   const likeBlog = () => {
     dispatch(like(blog))
+  }
+
+  const commentBlog = () => {
+    const newComment = {comment: commentValue }
+    dispatch(comment(blog.id, newComment))
   }
 
   const deleteBlog = () => {
@@ -25,7 +35,7 @@ const BlogDetails = () => {
 
   useEffect(() => {
     blogService.get(id).then((b) => setBlog(b))
-  }, [])
+  }, [blog])
 
   return !blog ? null : (
     <div>
@@ -47,6 +57,14 @@ const BlogDetails = () => {
         ''
       )}
       <h3>comments</h3>
+      <div>
+        <input
+          value={commentValue}
+          onChange={({ target }) => handleComment(target)}
+          type="text"
+        />
+        <button onClick={commentBlog}>add comment</button>
+      </div>
       <ul>
         {blog.comments.map((comment) => (
           <li key={comment._id}>{comment.comment}</li>

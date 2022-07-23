@@ -1,0 +1,91 @@
+GET http://localhost:3003/api/blogs
+
+###
+GET http://localhost:3003/api/blogs/62cd621060357acb30d475b8
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRlZmF1bHQiLCJpZCI6IjYyYzg2OWVjNTQ3M2I1OWYzMjhlZDdmOCIsImlhdCI6MTY1NzQzOTkwMCwiZXhwIjoxNjU3NDQwNTAwfQ.qwvIUCFt97VqTQH28uvKzCcVFij9FQQW1-kR74HkbbM
+
+{
+  "title": "First blog",
+  "author": "Ivan",
+  "url": "url-1",
+  "likes": 3
+}
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMSIsImlkIjoiNjJjODY5ZjA1NDczYjU5ZjMyOGVkN2ZiIiwiaWF0IjoxNjU3NDM5OTMxLCJleHAiOjE2NTc0NDA1MzF9.ithqlzr6k7edIVuKfdsHeO4jIYwFza11BxQLDLgUlT4
+
+{
+  "title": "Second blog",
+  "author": "Ivan",
+  "url": "url-2",
+  "likes": 5
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMiIsImlkIjoiNjJjODY5ZjI1NDczYjU5ZjMyOGVkN2ZlIiwiaWF0IjoxNjU3NDM5OTQ4LCJleHAiOjE2NTc0NDA1NDh9.byLNomdBS0xtPxHr14DrLVAReSs2vzSYbPtOkC3vyF0
+
+{
+  "title": "Third blog",
+  "author": "Ivan",
+  "url": "url-3",
+  "likes": 1
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMyIsImlkIjoiNjJjODY5ZjQ1NDczYjU5ZjMyOGVkODAxIiwiaWF0IjoxNjU3NDM5OTYwLCJleHAiOjE2NTc0NDA1NjB9.-ZnZBEwSxsfaHvCjjtfXVVy4lcg63USuj9EBKmFz520
+
+{
+  "title": "Fourth blog",
+  "author": "Ivan",
+  "url": "url-4",
+  "likes": 8
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNCIsImlkIjoiNjJjOTQ1MjQzZDYyMjRmNmQ2OTEwNmU4IiwiaWF0IjoxNjU3NDM5OTczLCJleHAiOjE2NTc0NDA1NzN9.PDDTO7V7FGJHeWilelYoUR9k6J2CDot0jpH2N9Hd2QA
+
+{
+  "title": "Fifth blog",
+  "author": "Ivan",
+  "url": "url-5",
+  "likes": 12
+}
+
+### Incorrect token
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMSIsImlkIjoiNjJjODY5ZjA1NDczYjU5ZjMyOGVkN2ZiIiwiaWF0IjoxNjU3NTQ2NTYwLCJleHAiOjE2NTc1NDY1OTB9.dqI0N7j2v6ZMVO9ka_uBhRBn2yw9npdZ9rRqB984Mpw
+
+{
+  "title": "Sixth blog",
+  "author": "Ivan",
+  "url": "url-6",
+  "likes": 15
+}
+
+### Delete blog
+DELETE http://localhost:3003/api/blogs/62ca872329962a352cdcdf65
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwNSIsImlkIjoiNjJjODY5Zjc1NDczYjU5ZjMyOGVkODA3IiwiaWF0IjoxNjU3NDM5OTg0LCJleHAiOjE2NTc0NDA1ODR9.ay4cfoVyRqhfX90giHHiIB8lvOV79cre_3lgMb2gPhM
+
+###
+
+POST http://localhost:3003/api/blogs/62cd621060357acb30d475b8/comments
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIwMSIsImlkIjoiNjJjODY5ZjA1NDczYjU5ZjMyOGVkN2ZiIiwiaWF0IjoxNjU4NTk5ODcwLCJleHAiOjE2NTg2MDM0NzB9.tWmwfQy2BNYuWZEu2wdXmQbDrTBO1BNWgCfmt3cSQEA
+
+{
+  "comment": "Another comment"
+}
