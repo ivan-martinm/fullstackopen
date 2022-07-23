@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
-import blogService from '../services/blogs'
 import { setMessage } from './notificationReducer'
+import { logout } from './userReducer'
+import blogService from '../services/blogs'
 
 const blogSlice = createSlice({
   name: 'blogs',
@@ -23,7 +24,7 @@ const blogSlice = createSlice({
   }
 })
 
-export const create = (blogData, logout) => {
+export const create = (blogData) => {
   return async (dispatch) => {
     const response = await blogService.create(blogData)
     if (response.status === 400) {
@@ -38,15 +39,19 @@ export const create = (blogData, logout) => {
       setTimeout(() => {
         dispatch(setMessage(null))
       }, 5000)
-      return logout()
+      return dispatch(logout())
     }
     const newBlog = await blogService.get(response.data.id)
     dispatch(addBlog(newBlog))
+    dispatch(setMessage({ text: 'blog created', isError: false }))
+      setTimeout(() => {
+        dispatch(setMessage(null))
+      }, 5000)
     return true
   }
 }
 
-export const like = (blog, logout) => {
+export const like = (blog) => {
   return async (dispatch) => {
     const response = await blogService.like(blog)
     if (response.status === 401) {
@@ -54,7 +59,7 @@ export const like = (blog, logout) => {
       setTimeout(() => {
         dispatch(setMessage(null))
       }, 5000)
-      return logout()
+      return dispatch(logout())
     }
     blog = await blogService.get(response.data.id)
     dispatch(updateBlog(blog))
@@ -65,7 +70,7 @@ export const like = (blog, logout) => {
   }
 }
 
-export const remove = (id, logout) => {
+export const remove = (id) => {
   return async (dispatch) => {
     const response = await blogService.remove(id)
     if (response.status === 401) {
@@ -73,7 +78,7 @@ export const remove = (id, logout) => {
       setTimeout(() => {
         dispatch(setMessage(null))
       }, 5000)
-      return logout()
+      return dispatch(logout())
     }
     dispatch(deleteBlog(id))
     dispatch(setMessage({ text: 'blog deleted', isError: false }))

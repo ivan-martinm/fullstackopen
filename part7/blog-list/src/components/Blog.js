@@ -1,7 +1,11 @@
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { like, remove } from '../reducers/blogReducer'
 
-const Blog = ({ blog, likeBlog, user, deleteBlog }) => {
+const Blog = ({ blog }) => {
+  const dispatch = useDispatch()
   const [collapsed, setCollapsed] = useState(true)
+  const user = useSelector(state => state.user)
 
   const frameStyle = {
     border: '2px solid',
@@ -13,13 +17,13 @@ const Blog = ({ blog, likeBlog, user, deleteBlog }) => {
   const hideWhenCollapsed = { display: collapsed ? 'none' : '' }
   const toggleCollapsed = () => setCollapsed(!collapsed)
 
-  const like = () => {
-    likeBlog(blog)
+  const likeBlog = () => {
+    dispatch(like(blog))
   }
 
-  const remove = () => {
+  const deleteBlog = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author} ?`)) {
-      deleteBlog(blog.id)
+      dispatch(remove(blog.id))
     }
   }
 
@@ -32,14 +36,14 @@ const Blog = ({ blog, likeBlog, user, deleteBlog }) => {
           <div>{blog.url}</div>
           <div className="likes">
             likes {blog.likes}{' '}
-            <button onClick={like} id="like-button">
+            <button onClick={likeBlog} id="like-button">
               like
             </button>
           </div>
           <div>{blog.user.name}</div>
           {user && user.username === blog.user.username ? (
             <div>
-              <button onClick={remove} id="delete-button">
+              <button onClick={deleteBlog} id="delete-button">
                 remove
               </button>
             </div>

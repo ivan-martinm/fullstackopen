@@ -1,19 +1,20 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setMessage } from './reducers/notificationReducer'
+import { initializeBlogs, create } from './reducers/blogReducer'
+import { setUser } from './reducers/userReducer'
+import { login, logout } from './reducers/userReducer'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import NewBlogForm from './components/NewBlogForm'
 import Toggleable from './components/Toggleable'
 import blogService from './services/blogs'
-import loginService from './services/login'
-import { initializeBlogs, create, like, remove } from './reducers/blogReducer'
 
 const App = () => {
   const dispatch = useDispatch()
   const blogs = useSelector((state) => state.blogs)
-  const [user, setUser] = useState(null)
+  const user = useSelector((state) => state.user)
 
   const blogFormRef = useRef()
 
@@ -25,39 +26,13 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(setUser(user))
       blogService.setToken(user.token)
     }
   }, [])
 
-  const login = async ({ username, password }) => {
-    try {
-      const user = await loginService.login({ username, password })
-      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
-      blogService.setToken(user.token)
-      setUser(user)
-      dispatch(setMessage({ text: 'Login successful', isError: false }))
-      setTimeout(() => {
-        dispatch(setMessage(null))
-      }, 5000)
-    } catch (exception) {
-      dispatch(
-        setMessage({ text: 'Wrong username or password', isError: true })
-      )
-      setTimeout(() => {
-        dispatch(setMessage(null))
-      }, 5000)
-    }
-  }
-
-  const logout = () => {
-    blogService.setToken(null)
-    window.localStorage.removeItem('loggedBlogAppUser')
-    setUser(null)
-  }
-
   const handleLogout = () => {
-    logout()
+    dispatch(logout())
     dispatch(setMessage({ text: 'Logged out', isError: false }))
     setTimeout(() => {
       dispatch(setMessage(null))
@@ -65,19 +40,11 @@ const App = () => {
   }
 
   const createNewBlog = (newBlog) => {
-    dispatch(create(newBlog, logout)).then((result) => {
+    dispatch(create(newBlog)).then((result) => {
       if (result) {
         blogFormRef.current.toggleVisibility()
       }
     })
-  }
-
-  const likeBlog = (blog) => {
-    dispatch(like(blog, logout))
-  }
-
-  const deleteBlog = (id) => {
-    dispatch(remove(id, logout))
   }
 
   const sortBlogsByLikes = (blogs) => {
@@ -102,13 +69,7 @@ const App = () => {
             <NewBlogForm createNewBlog={createNewBlog} />
           </Toggleable>
           {sortBlogsByLikes(blogs).map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              likeBlog={likeBlog}
-              deleteBlog={deleteBlog}
-              user={user}
-            />
+            <Blog key={blog.id} blog={blog} user={user} />
           ))}
         </div>
       )}
