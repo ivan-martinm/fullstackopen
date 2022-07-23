@@ -3,12 +3,14 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { like, remove } from '../reducers/blogReducer'
 import blogService from '../services/blogs'
+import { useNavigate } from 'react-router-dom'
 
 const BlogDetails = () => {
   const [blog, setBlog] = useState(null)
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const id = useParams().id
+  const navigate = useNavigate()
 
   const likeBlog = () => {
     dispatch(like(blog))
@@ -17,6 +19,7 @@ const BlogDetails = () => {
   const deleteBlog = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author} ?`)) {
       dispatch(remove(blog.id))
+      navigate('/blogs')
     }
   }
 
