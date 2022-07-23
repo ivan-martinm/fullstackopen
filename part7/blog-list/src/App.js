@@ -8,7 +8,7 @@ import NewBlogForm from './components/NewBlogForm'
 import Toggleable from './components/Toggleable'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import { initializeBlogs, createBlog } from './reducers/blogReducer'
+import { initializeBlogs, create, like, remove } from './reducers/blogReducer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -65,47 +65,19 @@ const App = () => {
   }
 
   const createNewBlog = (newBlog) => {
-    dispatch(createBlog(newBlog, logout)).then((result) => {
+    dispatch(create(newBlog, logout)).then((result) => {
       if (result) {
         blogFormRef.current.toggleVisibility()
       }
     })
   }
-  
-  const likeBlog = async (blog) => {
-    const response = await blogService.like(blog)
-    if (response.status === 401) {
-      dispatch(setMessage({ text: 'token expired', isError: true }))
-      setTimeout(() => {
-        dispatch(setMessage(null))
-      }, 5000)
-      return logout()
-    }
-    blog = await blogService.get(response.data.id)
-    dispatch(setMessage({ text: 'likes increased', isError: false }))
-    setTimeout(() => {
-      dispatch(setMessage(null))
-    }, 5000)
-    const currentBlogs = blogs.map((b) => (b.id === blog.id ? blog : b))
-    sortBlogsByLikes(currentBlogs)
-    return blog
+
+  const likeBlog = (blog) => {
+    dispatch(like(blog, logout))
   }
 
-  const deleteBlog = async (id) => {
-    const response = await blogService.remove(id)
-    if (response.status === 401) {
-      dispatch(setMessage({ text: 'token expired', isError: true }))
-      setTimeout(() => {
-        dispatch(setMessage(null))
-      }, 5000)
-      return logout()
-    }
-    dispatch(setMessage({ text: 'blog deleted', isError: false }))
-    setTimeout(() => {
-      dispatch(setMessage(null))
-    }, 5000)
-    const currentBlogs = blogs.filter((b) => b.id !== id)
-    sortBlogsByLikes(currentBlogs)
+  const deleteBlog = (id) => {
+    dispatch(remove(id, logout))
   }
 
   const sortBlogsByLikes = (blogs) => {

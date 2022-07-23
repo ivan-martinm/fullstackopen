@@ -20,7 +20,7 @@ const setToken = (newToken) => {
 const create = async (newBlog) => {
   try {
     const config = {
-      headers: { Authorization: token },
+      headers: { Authorization: token }
     }
     const response = await axios.post(baseUrl, newBlog, config)
     return response
@@ -32,10 +32,14 @@ const create = async (newBlog) => {
 const like = async (blog) => {
   try {
     const config = {
-      headers: { Authorization: token },
+      headers: { Authorization: token }
     }
-    blog.likes++
-    const response = await axios.put(`${baseUrl}/${blog.id}`, blog, config)
+    const changedBlog = { ...blog, likes: blog.likes + 1 }
+    const response = await axios.put(
+      `${baseUrl}/${changedBlog.id}`,
+      changedBlog,
+      config
+    )
     return response
   } catch (exception) {
     return exception.response
@@ -45,7 +49,7 @@ const like = async (blog) => {
 const remove = async (id) => {
   try {
     const config = {
-      headers: { Authorization: token },
+      headers: { Authorization: token }
     }
     const response = await axios.delete(`${baseUrl}/${id}`, config)
     return response
