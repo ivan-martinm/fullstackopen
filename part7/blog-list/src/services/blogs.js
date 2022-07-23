@@ -18,7 +18,7 @@ const setToken = (newToken) => {
 }
 
 const create = async (newBlog) => {
-  try {
+  try { 
     const config = {
       headers: { Authorization: token }
     }
