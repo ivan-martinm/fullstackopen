@@ -11,12 +11,14 @@ import User from './components/User'
 import BlogDetails from './components/BlogDetails'
 import Navigation from './components/Navigation'
 import blogService from './services/blogs'
+import { Container } from '@mui/material'
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate
 } from 'react-router-dom'
+import { Typography, Divider } from '@mui/material'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -40,7 +42,7 @@ const App = () => {
   }
 
   return (
-    <>
+    <Container>
       <Router>
         <Navigation handleLogout={handleLogout} />
         <Notification />
@@ -48,7 +50,9 @@ const App = () => {
           <LoginForm login={login} />
         ) : (
           <div>
-            <h2>blogs</h2>
+            <Divider sx={{marginTop: 1}} textAlign="left">
+              <Typography variant="h4">Blogs</Typography>
+            </Divider>
             <Routes>
               <Route path="/" element={<Blogs />} />
               <Route path="/blogs" element={<Blogs />} />
@@ -69,7 +73,7 @@ const App = () => {
           </div>
         )}
       </Router>
-    </>
+    </Container>
   )
 }
 

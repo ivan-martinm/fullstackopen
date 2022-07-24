@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { login } from '../reducers/userReducer'
+import { Button, TextField, Typography, Box } from '@mui/material'
 
 const LoginForm = () => {
   const [username, setUsername] = useState('')
@@ -17,12 +18,13 @@ const LoginForm = () => {
   }
 
   return (
-    <div className="login-form">
-      <h2>log in to application</h2>
+    <Box component="div" className="login-form" sx={{marginTop: 1}}>
+      <Typography variant="h5">Log in to application</Typography>
       <form onSubmit={handleLogin}>
         <div>
-          username
-          <input
+          <TextField
+            variant="standard"
+            label="username"
             type="text"
             name="username"
             value={username}
@@ -31,8 +33,9 @@ const LoginForm = () => {
           />
         </div>
         <div>
-          password
-          <input
+          <TextField
+            variant="standard"
+            label="password"
             type="password"
             name="password"
             value={password}
@@ -40,16 +43,16 @@ const LoginForm = () => {
             onChange={({ target }) => setPassword(target.value)}
           />
         </div>
-        <button type="submit" id="submit-button">
+        <Button variant="outlined" type="submit" id="submit-button">
           login
-        </button>
+        </Button>
       </form>
-    </div>
+    </Box>
   )
 }
 
 LoginForm.propTypes = {
-  login: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired
 }
 
 export default LoginForm

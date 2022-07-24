@@ -1,10 +1,11 @@
 import React from 'react'
 import { useSelector } from 'react-redux/es/exports'
 import { Link } from 'react-router-dom'
+import { AppBar, Toolbar, Button, Typography } from '@mui/material'
 
 const Navigation = ({ handleLogout }) => {
   const menuStyle = {
-    backgroundColor: 'lightgrey',
+    backgroundColor: 'lightblue',
     padding: '5px'
   }
 
@@ -15,21 +16,25 @@ const Navigation = ({ handleLogout }) => {
   const user = useSelector((state) => state.user)
 
   return (
-    <div style={menuStyle}>
-      <Link style={menuItemStyle} to="">
-        blogs
-      </Link>
-      <Link style={menuItemStyle} to="/users">
-        users
-      </Link>
-      {user ? (
-        <span style={menuItemStyle}>
-          {user.name} logged in <button onClick={handleLogout}>log out</button>
-        </span>
-      ) : (
-        ''
-      )}
-    </div>
+    <AppBar position="static" style={menuStyle}>
+      <Toolbar>
+        <Button component={Link} style={menuItemStyle} to="">
+          blogs
+        </Button>
+        <Button component={Link} style={menuItemStyle} to="/users">
+          users
+        </Button>
+        {user ? (
+          <span textAlign="right" style={menuItemStyle}>
+            {user.name}
+            <Typography component="span"> logged in </Typography>
+            <Button onClick={handleLogout}>log out</Button>
+          </span>
+        ) : (
+          ''
+        )}
+      </Toolbar>
+    </AppBar>
   )
 }
 

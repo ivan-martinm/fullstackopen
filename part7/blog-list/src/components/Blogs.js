@@ -33,9 +33,9 @@ const Blogs = () => {
       <Toggleable buttonLabel="new blog" ref={blogFormRef}>
         <NewBlogForm createNewBlog={createNewBlog} />
       </Toggleable>
-      {sortBlogsByLikes(blogs).map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
+        {sortBlogsByLikes(blogs).map((blog) => (
+            <Blog key={blog.id} blog={blog} />
+        ))}
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react'
+import { Button, TextField, Divider, Typography } from '@mui/material'
 
 const NewBlogForm = ({ createNewBlog }) => {
-
   const useField = (name) => {
     const [value, setValue] = useState('')
     const onChange = (event) => {
@@ -10,7 +10,16 @@ const NewBlogForm = ({ createNewBlog }) => {
     const onReset = () => {
       setValue('')
     }
-    return { id: `${name}-input`, value, onReset, onChange, name, type: 'text' }
+    return {
+      id: `${name}-input`,
+      variant: 'standard',
+      label: name,
+      value,
+      onReset,
+      onChange,
+      name,
+      type: 'text'
+    }
   }
 
   const title = useField('title')
@@ -28,23 +37,25 @@ const NewBlogForm = ({ createNewBlog }) => {
 
   return (
     <div className="form">
-      <h2>create new</h2>
+      <Typography variant="h5">Create new</Typography>
       <form onSubmit={create}>
+        <TextField {...title} />
         <div>
-          title:
-          <input {...title} />
+          <TextField {...author} />
         </div>
         <div>
-          author:
-          <input {...author} />
+          <TextField {...url} />
         </div>
-        <div>
-          url:
-          <input {...url} />
-        </div>
-        <button type="submit" id="create-button">
+        <Divider />
+        <Button
+          variant="contained"
+          size="small"
+          type="submit"
+          id="create-button"
+          sx={{ marginTop: 1, marginBottom: 1 }}
+        >
           create
-        </button>
+        </Button>
       </form>
     </div>
   )
