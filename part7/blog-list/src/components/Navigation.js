@@ -25,7 +25,7 @@ const Navigation = ({ handleLogout }) => {
           users
         </Button>
         {user ? (
-          <span textAlign="right" style={menuItemStyle}>
+          <span style={menuItemStyle}>
             {user.name}
             <Typography component="span"> logged in </Typography>
             <Button onClick={handleLogout}>log out</Button>

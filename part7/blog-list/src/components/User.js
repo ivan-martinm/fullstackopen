@@ -1,6 +1,9 @@
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import usersService from '../services/users'
+import { List, ListItem, ListItemIcon, ListItemText, Avatar, Typography, Divider } from '@mui/material'
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import { Link } from 'react-router-dom'
 
 const User = () => {
   const id = useParams().id
@@ -12,13 +15,23 @@ const User = () => {
 
   return !user ? null : (
     <div>
-      <h2>{user.name}</h2>
-      <h3>added blogs</h3>
-      <ul>
+      <Avatar>{user.name.substring(0,1)}</Avatar>
+      <Typography variant='h6'>{user.name}</Typography>
+      <Divider textAlign='left'><h3>Added blogs</h3></Divider>
+      <List dense={true}>
         {user.blogs.map((blog) => {
-          return <li key={blog.id}>{blog.title}</li>
+          return (
+            <ListItem key={blog.id}>
+              <ListItemIcon>
+                <AutoStoriesIcon />
+              </ListItemIcon>
+              <Link to={`/blogs/${blog.id}`}>
+              <ListItemText primary={blog.title}></ListItemText>
+              </Link>
+            </ListItem>
+          )
         })}
-      </ul>
+      </List>
     </div>
   )
 }

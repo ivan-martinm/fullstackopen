@@ -31,7 +31,7 @@ const Users = () => {
           <TableRow>
             <TableCell>Username</TableCell>
             <TableCell>
-              <strong>blogs created</strong>
+              <strong>Blogs created</strong>
             </TableCell>
           </TableRow>
         </TableHead>
