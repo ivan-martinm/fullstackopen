@@ -119,14 +119,10 @@ const typeDefs = gql`
       published: Int!
       genres: [String]!
     ): Book
-    addAuthor(
-      name: String!
-      born: Int
-      bookCount: Int
-    ): Author
+    addAuthor(name: String!, born: Int, bookCount: Int): Author
+    editAuthor(name: String!, setBornTo: Int!): Author
   }
 `
-
 const resolvers = {
   Query: {
     bookCount: () => books.length,
@@ -161,6 +157,15 @@ const resolvers = {
         authors = authors.concat(newAuthor)
       }
       return book
+    },
+    editAuthor: (root, args) => {
+      const authorExists = authors.find((author) => author.name === args.name)
+      if (!authorExists) {
+        return null
+      }
+      const author = { ...authorExists, born: args.setBornTo }
+      authors = authors.map((a) => (a.name === args.name ? author : a))
+      return author
     },
   },
 }
