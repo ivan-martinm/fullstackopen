@@ -4,14 +4,19 @@ import { useState } from 'react'
 
 const Books = (props) => {
   const [filter, setFilter] = useState('')
-
   const result = useQuery(ALL_BOOKS, {
     skip: !props.show,
   })
 
   const resultByGenre = useQuery(BOOKS_BY_GENRE, {
     variables: { genre: filter },
+    skip: !props.show,
   })
+
+  const setGenre = (genre) => {
+    resultByGenre.refetch({ genre })
+    setFilter(genre)
+  }
 
   if (!props.show || !(result.data || resultByGenre.data)) {
     return null
@@ -21,8 +26,7 @@ const Books = (props) => {
     return <div>loading...</div>
   }
 
-  const books =
-    filter === '' ? result.data.allBooks : resultByGenre.data.allBooks
+  const books = resultByGenre.data.allBooks
 
   const genresList = result.data.allBooks.reduce((total, book) => {
     return total.concat(...book.genres)
@@ -54,11 +58,11 @@ const Books = (props) => {
         </tbody>
       </table>
       {genres.map((g) => (
-        <button key={g} onClick={() => setFilter(g)}>
+        <button key={g} onClick={() => setGenre(g)}>
           {g}
         </button>
       ))}
-      <button onClick={() => setFilter('')}>Clear filter</button>
+      <button onClick={() => setGenre('')}>Clear filter</button>
     </div>
   )
 }

@@ -6,14 +6,13 @@ const Recommendation = (props) => {
   const user = props.user
 
   const result = useQuery(BOOKS_BY_GENRE, {
-    variables: { genre: user ? user.favoriteGenre: '' },
+    variables: { genre: user ? user.favoriteGenre : '' },
   })
 
   if (!props.show || !result.data) {
     return null
   }
 
-  
   if (!props.token || !user) {
     props.setPage('authors')
     return null
