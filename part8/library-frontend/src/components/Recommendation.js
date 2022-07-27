@@ -1,17 +1,19 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
-import { ALL_BOOKS } from '../queries'
+import { BOOKS_BY_GENRE } from '../queries'
 
 const Recommendation = (props) => {
-  const result = useQuery(ALL_BOOKS, {
-    skip: !props.show,
+  const user = props.user
+
+  const result = useQuery(BOOKS_BY_GENRE, {
+    variables: { genre: user ? user.favoriteGenre: '' },
   })
 
   if (!props.show || !result.data) {
     return null
   }
 
-  const user = props.user
+  
   if (!props.token || !user) {
     props.setPage('authors')
     return null
@@ -21,9 +23,7 @@ const Recommendation = (props) => {
     return <div>loading...</div>
   }
 
-  const books = result.data.allBooks.filter((book) =>
-    book.genres.includes(user.favoriteGenre)
-  )
+  const books = result.data.allBooks
 
   return (
     <div>
