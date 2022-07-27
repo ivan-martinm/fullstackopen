@@ -20,6 +20,7 @@ const NewBook = (props) => {
 
   if (!props.token) {
     props.setPage('authors')
+    return null
   }
 
   const submit = async (event) => {
