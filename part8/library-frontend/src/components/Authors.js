@@ -65,25 +65,29 @@ const Authors = (props) => {
         </tbody>
       </table>
       <h2>Set birthyear</h2>
-      <form onSubmit={submit}>
-        <div>
-          <Select
-            value={name}
-            onChange={setName}
-            options={options}
-            placeholder='Select author...'
-          />
-        </div>
-        <div>
-          born
-          <input
-            type='number'
-            value={birthYear}
-            onChange={({ target }) => setBirthYear(target.value)}
-          />
-        </div>
-        <button type='submit'>update author</button>
-      </form>
+      {!props.token ? (
+        <div>You must be logged in to use this feature</div>
+      ) : (
+        <form onSubmit={submit}>
+          <div>
+            <Select
+              value={name}
+              onChange={setName}
+              options={options}
+              placeholder='Select author...'
+            />
+          </div>
+          <div>
+            born
+            <input
+              type='number'
+              value={birthYear}
+              onChange={({ target }) => setBirthYear(target.value)}
+            />
+          </div>
+          <button type='submit'>update author</button>
+        </form>
+      )}
     </div>
   )
 }
