@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { ALL_BOOKS, BOOKS_BY_GENRE } from '../queries'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const Books = (props) => {
   const [filter, setFilter] = useState('')
@@ -15,8 +15,13 @@ const Books = (props) => {
 
   const setGenre = (genre) => {
     resultByGenre.refetch({ genre })
+    result.refetch()
     setFilter(genre)
   }
+
+  useEffect(() => {
+    setGenre(filter)
+  }, [result])
 
   if (!props.show || !(result.data || resultByGenre.data)) {
     return null

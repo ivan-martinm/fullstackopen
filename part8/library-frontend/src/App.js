@@ -5,8 +5,23 @@ import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
 import { useApolloClient } from '@apollo/client'
 import Recommendation from './components/Recommendation'
-import { ME, BOOK_ADDED } from './queries'
+import { ME, BOOK_ADDED, ALL_BOOKS } from './queries'
 import { useQuery, useSubscription } from '@apollo/client'
+
+export const updateCache = (cache, query, addedBook) => {
+  const discardDuplicates = (entry) => {
+    let namesSet = new Set()
+    return entry.filter((item) => {
+      return namesSet.has(item.name) ? false : namesSet.add(item.name)
+    })
+  }
+
+  cache.updateQuery(query, ({ allBooks }) => {
+    return {
+      allBooks: discardDuplicates(allBooks.concat(addedBook)),
+    }
+  })
+}
 
 const App = () => {
   const [page, setPage] = useState('authors')
@@ -32,12 +47,14 @@ const App = () => {
   }
 
   useSubscription(BOOK_ADDED, {
-    onSubscriptionData: ({ subscriptionData }) => {
+    onSubscriptionData: ({ subscriptionData, client }) => {
+      const addedBook = subscriptionData.data.bookAdded
       window.alert(
         subscriptionData.error
           ? 'Error. Book not added.'
-          : `The Book '${subscriptionData.data.bookAdded.title}' has been added.`
+          : `The Book '${addedBook.title}' has been added.`
       )
+      updateCache(client.cache, { query: ALL_BOOKS }, addedBook)
     },
   })
 
